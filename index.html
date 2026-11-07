@@ -1,0 +1,1329 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>禮記選 · 互動學習地圖</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/noto-serif-tc@latest/chinese-traditional-400.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/noto-serif-tc@latest/chinese-traditional-700.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/noto-serif-tc@latest/chinese-traditional-900.css">
+<style>
+:root{
+  --paper:#f7f1e3;--paper2:#fffdf6;--ink:#241f19;--ink2:#4a4136;--muted:#8a7c68;
+  --line:rgba(60,48,32,.16);--cinnabar:#9c2b23;--cinnabar-l:#c0453a;--teal:#2b5f6b;
+  --violet:#6d5580;--gold:#b0893f;--gold-l:#d9b56a;--shadow:0 10px 30px rgba(60,45,20,.10);--r:14px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;color:var(--ink);font-family:'Noto Serif TC','Songti TC','PMingLiU',serif;background-color:var(--paper);
+ background-image:
+  radial-gradient(circle at 12% 8%,rgba(176,137,63,.10),transparent 42%),
+  radial-gradient(circle at 88% 22%,rgba(156,43,35,.07),transparent 40%),
+  radial-gradient(circle at 50% 92%,rgba(43,95,107,.07),transparent 45%),
+  repeating-linear-gradient(0deg,rgba(120,100,70,.028) 0 1px,transparent 1px 4px),
+  repeating-linear-gradient(90deg,rgba(120,100,70,.022) 0 1px,transparent 1px 5px);
+ line-height:1.85;-webkit-font-smoothing:antialiased}
+h1,h2,h3,h4,h5{margin:0;line-height:1.4;font-weight:900;letter-spacing:.06em}
+p{margin:0 0 .7em}
+a{color:var(--cinnabar);text-decoration:none}
+a:hover{text-decoration:underline}
+button{font-family:inherit}
+.wrap{max-width:1180px;margin:0 auto;padding:0 22px}
+code,.mono{font-family:ui-monospace,Menlo,Consolas,monospace}
+
+/* ============ 連結中心（核心修復區） ============ */
+.linkbar{background:linear-gradient(120deg,#241f19,#3d3226);color:#f4ecdb;padding:30px 0;border-bottom:3px solid var(--gold)}
+.linkbar h3{color:#fff;font-size:1.22rem;letter-spacing:.14em}
+.linkbar .lead{font-size:.86rem;color:rgba(244,236,219,.78);margin:8px 0 4px;max-width:66em}
+.linkbar .lead b{color:var(--gold-l)}
+.lb-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:16px;margin-top:20px}
+.lb-item{background:rgba(255,253,246,.07);border:1px solid rgba(217,181,106,.4);border-radius:14px;padding:16px}
+.lb-tag{font-size:.7rem;letter-spacing:.22em;color:var(--gold-l);font-weight:700}
+.lb-name{font-size:1.06rem;font-weight:900;letter-spacing:.08em;color:#fff;margin:5px 0 10px}
+.lb-url{width:100%;background:#12100e;border:1px dashed rgba(217,181,106,.55);color:#f0e4c8;border-radius:9px;
+ padding:10px 12px;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.76rem;margin-bottom:12px;cursor:text;
+ word-break:break-all;line-height:1.6}
+.lb-url:focus{outline:2px solid var(--gold-l);background:#0d0b09}
+.lb-btns{display:flex;gap:7px;flex-wrap:wrap}
+.lb-help{margin-top:20px;background:rgba(0,0,0,.28);border-left:4px solid var(--gold);border-radius:0 10px 10px 0;padding:14px 16px;font-size:.85rem;color:rgba(244,236,219,.86)}
+.lb-help b{color:var(--gold-l)}
+.lb-help ol{margin:8px 0 0;padding-left:1.3em}
+.lb-help li{margin-bottom:5px}
+.lb-status{margin-top:14px;font-size:.84rem;color:var(--gold-l);min-height:1.6em;letter-spacing:.04em}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:9px 16px;border-radius:999px;border:1px solid var(--line);
+ background:var(--paper2);color:var(--ink);font-size:.86rem;font-weight:700;letter-spacing:.06em;cursor:pointer;
+ transition:.24s cubic-bezier(.2,.8,.3,1);text-decoration:none!important;line-height:1.5}
+.btn:hover{transform:translateY(-2px);box-shadow:var(--shadow);border-color:var(--gold);text-decoration:none}
+.btn.solid{background:var(--cinnabar);color:#fff6ea;border-color:var(--cinnabar)}
+.btn.solid:hover{background:var(--cinnabar-l)}
+.btn.dark{background:var(--ink);color:#f7f1e3;border-color:var(--ink)}
+.btn.gold{background:var(--gold);color:#241f19;border-color:var(--gold)}
+.btn.ghost{background:transparent}
+.lb-item .btn{background:rgba(255,253,246,.16);color:#fdf3e6;border-color:rgba(217,181,106,.55);font-size:.78rem;padding:8px 13px}
+.lb-item .btn:hover{background:var(--gold);color:#241f19}
+.lb-item .btn.solid{background:var(--cinnabar);border-color:var(--cinnabar-l)}
+.lb-item .btn.solid:hover{background:var(--cinnabar-l);color:#fff}
+.lkg{display:inline-flex;gap:8px;flex-wrap:wrap;align-items:center}
+
+/* ============ HERO ============ */
+.hero{position:relative;overflow:hidden;padding:60px 0 40px;border-bottom:1px solid var(--line)}
+.hero-grid{display:grid;grid-template-columns:1fr auto;gap:36px;align-items:center;position:relative;z-index:2}
+.eyebrow{font-size:.8rem;letter-spacing:.42em;color:var(--cinnabar);margin-bottom:14px;font-weight:700}
+.hero h1{font-size:clamp(2.1rem,5.8vw,3.9rem);letter-spacing:.14em}
+.hero h1 em{font-style:normal;color:var(--cinnabar)}
+.hero .sub{margin-top:16px;font-size:1rem;color:var(--ink2);max-width:34em}
+.hero .sub b{color:var(--ink);border-bottom:2px solid var(--gold-l)}
+.quote{margin-top:18px;padding:13px 20px;border-left:3px solid var(--cinnabar);background:rgba(255,253,246,.7);font-size:.96rem;color:var(--ink2)}
+.quote span{display:block;font-size:.82rem;color:var(--muted);margin-top:4px}
+.stamp{width:104px;height:104px;border-radius:10px;background:var(--cinnabar);color:#fdf3e6;display:grid;grid-template-columns:1fr 1fr;place-items:center;font-size:1.5rem;font-weight:900;transform:rotate(-6deg);box-shadow:inset 0 0 0 3px rgba(253,243,230,.55),0 8px 22px rgba(156,43,35,.3);padding:8px;text-align:center;line-height:1.1}
+.stamp i{font-style:normal}
+.stamp .s2{grid-column:1/-1;font-size:1.05rem;letter-spacing:.2em;margin-top:2px;opacity:.9}
+.ring-box{display:flex;flex-direction:column;align-items:center;gap:12px}
+.ring{position:relative;width:132px;height:132px}
+.ring svg{transform:rotate(-90deg)}
+.ring .val{position:absolute;inset:0;display:grid;place-items:center;text-align:center}
+.ring .val b{font-size:1.6rem;font-weight:900;color:var(--cinnabar);line-height:1}
+.ring .val span{font-size:.68rem;color:var(--muted);letter-spacing:.2em}
+
+/* ============ NAV ============ */
+.topnav{position:sticky;top:0;z-index:60;background:rgba(247,241,227,.96);backdrop-filter:blur(9px);border-bottom:1px solid var(--line)}
+.topnav .wrap{display:flex;align-items:center;gap:6px;overflow-x:auto;padding:10px 22px;scrollbar-width:none}
+.topnav .wrap::-webkit-scrollbar{display:none}
+.topnav a{white-space:nowrap;padding:7px 15px;border-radius:999px;font-size:.87rem;color:var(--ink2);font-weight:700;letter-spacing:.08em;transition:.22s;border:1px solid transparent}
+.topnav a:hover{background:var(--paper2);border-color:var(--line);color:var(--cinnabar);text-decoration:none}
+.topnav a.on{background:var(--ink);color:#f6efdf}
+.topnav a.hot{background:var(--cinnabar);color:#fff6ea}
+.topnav a.hot:hover{background:var(--cinnabar-l);color:#fff}
+.topnav .nb{width:7px;height:7px;border-radius:50%;background:var(--gold);display:inline-block;margin-right:6px;vertical-align:middle}
+
+/* ============ SECTION ============ */
+section{padding:58px 0;border-bottom:1px solid var(--line);position:relative}
+.sec-head{display:flex;align-items:flex-end;gap:18px;flex-wrap:wrap;margin-bottom:8px}
+.sec-idx{font-size:3rem;font-weight:900;color:transparent;-webkit-text-stroke:1.5px var(--gold);line-height:1}
+.sec-head h2{font-size:clamp(1.4rem,3.6vw,2.05rem);letter-spacing:.12em}
+.sec-head .tag{margin-left:auto;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.sec-desc{color:var(--muted);font-size:.95rem;max-width:52em;margin:10px 0 20px}
+.pill{font-size:.76rem;letter-spacing:.14em;padding:5px 13px;border-radius:999px;border:1px solid var(--line);background:var(--paper2);color:var(--ink2);font-weight:700;display:inline-block}
+.pill.p1{color:var(--cinnabar);border-color:rgba(156,43,35,.35)}
+.pill.p2{color:var(--teal);border-color:rgba(43,95,107,.35)}
+.pill.p3{color:var(--violet);border-color:rgba(109,85,128,.35)}
+
+/* ============ MAP ============ */
+.map-tools{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
+.tbtn{padding:7px 16px;border-radius:999px;border:1px solid var(--line);background:var(--paper2);cursor:pointer;font-size:.85rem;font-weight:700;letter-spacing:.1em;color:var(--ink2);transition:.22s}
+.tbtn:hover{border-color:var(--gold);color:var(--cinnabar)}
+.tbtn.act{background:var(--ink);color:#f7f1e3;border-color:var(--ink)}
+.mapbox{position:relative;background:linear-gradient(180deg,rgba(255,253,246,.9),rgba(255,253,246,.65));border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);padding:14px;overflow:hidden}
+.mapbox::after{content:"";position:absolute;inset:0;pointer-events:none;background-image:repeating-linear-gradient(45deg,rgba(176,137,63,.05) 0 1px,transparent 1px 9px)}
+#mapsvg{width:100%;height:auto;display:block;position:relative;z-index:2}
+.lane-label{font-weight:900;letter-spacing:.24em}
+.map-node{cursor:pointer}
+.map-node circle.hit{fill:transparent}
+.map-node .disc{transition:.3s cubic-bezier(.2,.8,.3,1)}
+.map-node:hover .disc{filter:drop-shadow(0 4px 10px rgba(0,0,0,.25))}
+.map-node .ntxt{font-size:14px;font-weight:700;fill:#fffdf6;text-anchor:middle;dominant-baseline:central;pointer-events:none}
+.map-node .nlbl{font-size:14.5px;font-weight:700;fill:var(--ink2);text-anchor:middle;letter-spacing:.06em}
+.map-node:hover .nlbl{fill:var(--cinnabar)}
+.map-node.dim{opacity:.18;pointer-events:none}
+.map-tip{position:absolute;z-index:20;pointer-events:none;opacity:0;transform:translate(-50%,-118%);background:var(--ink);color:#f7f1e3;padding:9px 14px;border-radius:10px;font-size:.83rem;white-space:nowrap;transition:opacity .18s;box-shadow:0 8px 20px rgba(0,0,0,.25)}
+.map-tip::after{content:"";position:absolute;left:50%;bottom:-5px;transform:translateX(-50%) rotate(45deg);width:10px;height:10px;background:var(--ink)}
+.map-tip.show{opacity:1}
+.legend{display:flex;gap:18px;flex-wrap:wrap;margin-top:14px;font-size:.84rem;color:var(--muted)}
+.legend i{width:11px;height:11px;border-radius:50%;display:inline-block;margin-right:6px;vertical-align:middle}
+
+/* ============ ACCORDION ============ */
+.acc{display:flex;flex-direction:column;gap:12px}
+.acc-item{background:var(--paper2);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;transition:.3s;position:relative}
+.acc-item::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--acc,var(--gold));opacity:.75;z-index:1}
+.acc-item:hover{box-shadow:var(--shadow);border-color:rgba(176,137,63,.5)}
+.acc-item.open{box-shadow:var(--shadow)}
+.acc-head{width:100%;display:flex;align-items:center;gap:16px;padding:17px 20px 17px 24px;background:none;border:0;cursor:pointer;text-align:left}
+.acc-num{font-size:.72rem;font-weight:700;letter-spacing:.2em;color:var(--acc,var(--gold));white-space:nowrap}
+.acc-title{flex:1;min-width:0}
+.acc-title b{display:block;font-size:1.12rem;font-weight:900;letter-spacing:.1em}
+.acc-title span{display:block;font-size:.85rem;color:var(--muted);margin-top:3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.chk{width:24px;height:24px;border-radius:50%;border:1.5px solid var(--line);background:#fff;display:grid;place-items:center;font-size:.78rem;color:transparent;transition:.25s;flex:none}
+.acc-item.done .chk{background:var(--gold);border-color:var(--gold);color:#fff}
+.chev{width:12px;height:12px;border-right:2px solid var(--muted);border-bottom:2px solid var(--muted);transform:rotate(45deg);transition:.35s;flex:none;margin-left:4px}
+.acc-item.open .chev{transform:rotate(225deg)}
+.acc-body{display:grid;grid-template-rows:0fr;transition:grid-template-rows .45s cubic-bezier(.2,.8,.3,1)}
+.acc-item.open .acc-body{grid-template-rows:1fr}
+.acc-inner{overflow:hidden}
+.acc-pad{padding:20px 24px 24px;border-top:1px dashed var(--line);position:relative;z-index:4}
+.acc-pad h4{font-size:.98rem;letter-spacing:.14em;margin:22px 0 10px;color:var(--cinnabar);display:flex;align-items:center;gap:8px}
+.acc-pad h4::before{content:"";width:6px;height:6px;background:var(--gold);transform:rotate(45deg)}
+.acc-pad h4:first-child{margin-top:0}
+ul.dots{margin:0;padding-left:1.15em}
+ul.dots li{margin-bottom:7px;color:var(--ink2);font-size:.95rem}
+ul.dots li b{color:var(--ink)}
+.kv{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin:12px 0}
+.kv div{background:#fdf9ef;border:1px solid var(--line);border-radius:10px;padding:11px 13px;font-size:.88rem;color:var(--ink2)}
+.kv div b{display:block;color:var(--cinnabar);font-size:.94rem;letter-spacing:.06em;margin-bottom:3px}
+.mark{display:inline-flex;align-items:center;gap:7px;padding:9px 17px;border-radius:999px;border:1px dashed var(--gold);background:#fdf8ec;cursor:pointer;font-size:.85rem;font-weight:700;letter-spacing:.1em;color:var(--ink2);transition:.25s}
+.mark:hover{background:#f9efd9;color:var(--cinnabar)}
+.mark.on{background:var(--gold);border-style:solid;border-color:var(--gold);color:#fff}
+.srclink{display:inline-flex;align-items:center;gap:6px;padding:9px 17px;border-radius:999px;background:var(--ink);color:#f7f1e3!important;font-size:.84rem;font-weight:700;letter-spacing:.08em;text-decoration:none!important;transition:.25s}
+.srclink:hover{background:var(--cinnabar);transform:translateY(-2px);text-decoration:none}
+
+/* ============ WIDGETS ============ */
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px}
+.card{background:var(--paper2);border:1px solid var(--line);border-radius:var(--r);padding:18px;box-shadow:0 3px 10px rgba(60,45,20,.04);transition:.3s;position:relative;z-index:3}
+.card:hover{transform:translateY(-3px);box-shadow:var(--shadow)}
+.card h4{margin:0 0 8px;font-size:1.02rem;letter-spacing:.1em}
+.card p{font-size:.9rem;color:var(--ink2);margin:0}
+.flips{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.flip{perspective:900px;height:170px;cursor:pointer}
+.flip .in{position:relative;width:100%;height:100%;transition:transform .65s cubic-bezier(.3,.9,.3,1);transform-style:preserve-3d}
+.flip.on .in{transform:rotateY(180deg)}
+.flip .f,.flip .b{position:absolute;inset:0;backface-visibility:hidden;border-radius:12px;border:1px solid var(--line);padding:14px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center}
+.flip .f{background:linear-gradient(160deg,#9c2b23,#7d2019);color:#fdf3e6}
+.flip .f small{opacity:.75;letter-spacing:.24em;font-size:.68rem;margin-bottom:6px}
+.flip .f b{font-size:1.55rem;letter-spacing:.2em;font-weight:900}
+.flip .f i{font-style:normal;font-size:.7rem;margin-top:10px;opacity:.7;letter-spacing:.1em}
+.flip .b{background:#fffdf6;transform:rotateY(180deg);font-size:.82rem;color:var(--ink2);line-height:1.7;justify-content:flex-start;overflow:hidden}
+.flip .b b{color:var(--cinnabar);display:block;margin-bottom:5px;font-size:.94rem}
+.tl{display:flex;gap:10px;overflow-x:auto;padding:14px 4px 18px;scroll-snap-type:x mandatory}
+.tl::-webkit-scrollbar{height:7px}
+.tl::-webkit-scrollbar-thumb{background:var(--gold-l);border-radius:9px}
+.tl-node{flex:none;width:104px;scroll-snap-align:center;text-align:center;cursor:pointer;transition:.3s}
+.tl-node .age{font-size:.74rem;color:var(--muted);letter-spacing:.1em}
+.tl-node .ball{width:56px;height:56px;margin:6px auto;border-radius:50%;background:var(--paper2);border:2px solid var(--line);display:grid;place-items:center;font-size:1.35rem;font-weight:900;color:var(--ink2);transition:.3s}
+.tl-node:hover .ball{transform:translateY(-4px)}
+.tl-node.act .ball{background:var(--teal);border-color:var(--teal);color:#fff;box-shadow:0 8px 18px rgba(43,95,107,.32)}
+.tl-node .nm{font-size:.8rem;color:var(--ink2)}
+.tl-detail{background:#fffdf6;border:1px solid var(--line);border-left:4px solid var(--teal);border-radius:12px;padding:18px 20px;margin-top:4px;animation:fade .4s}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.tl-detail h4{margin:0 0 6px;color:var(--teal);font-size:1.1rem;letter-spacing:.1em}
+.tl-detail .src{font-size:.85rem;color:var(--muted);border-left:2px solid var(--gold-l);padding-left:10px;margin:10px 0 0}
+.shichen{display:grid;grid-template-columns:repeat(auto-fit,minmax(84px,1fr));gap:8px}
+.sc{background:#fffdf6;border:1px solid var(--line);border-radius:10px;padding:10px 6px;text-align:center;cursor:pointer;transition:.26s}
+.sc:hover{border-color:var(--teal);transform:translateY(-3px)}
+.sc.act{background:var(--teal);color:#fff;border-color:var(--teal)}
+.sc b{display:block;font-size:1.3rem;font-weight:900}
+.sc small{font-size:.66rem;opacity:.75}
+.roles{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}
+.role{background:#fffdf6;border:1px solid var(--line);border-radius:12px;padding:14px}
+.role h5{margin:0 0 8px;font-size:.95rem;letter-spacing:.08em;color:var(--cinnabar);display:flex;align-items:center;gap:8px;cursor:pointer}
+.role h5 .box{width:17px;height:17px;border:1.5px solid var(--gold);border-radius:4px;display:grid;place-items:center;font-size:.68rem;color:#fff;flex:none}
+.role.sel h5 .box{background:var(--gold)}
+.role ul{margin:0;padding-left:0;list-style:none}
+.role li{font-size:.85rem;color:var(--ink2);padding:5px 0 5px 24px;position:relative;border-top:1px dashed rgba(60,48,32,.12);cursor:pointer}
+.role li::before{content:"";position:absolute;left:2px;top:11px;width:13px;height:13px;border:1.5px solid var(--line);border-radius:3px;background:#fff}
+.role li.ck{color:var(--ink)}
+.role li.ck::before{content:"✓";background:var(--cinnabar);border-color:var(--cinnabar);color:#fff;font-size:.62rem;display:grid;place-items:center;line-height:1}
+.jian{margin-top:18px;background:linear-gradient(180deg,#fffdf6,#fdf6e6);border:1px solid var(--gold-l);border-radius:12px;padding:22px;position:relative}
+.jian::before{content:"修身箋";position:absolute;right:16px;top:-13px;background:var(--cinnabar);color:#fdf3e6;padding:2px 14px;border-radius:6px;font-size:.78rem;letter-spacing:.24em;font-weight:700}
+.jian pre{white-space:pre-wrap;font-family:inherit;margin:0;font-size:.92rem;color:var(--ink2);line-height:2}
+.scn{background:#fffdf6;border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin-bottom:12px}
+.scn .q{font-size:.95rem;margin-bottom:12px;font-weight:700}
+.scn .q b{color:var(--violet);margin-right:8px}
+.opt{display:block;width:100%;text-align:left;margin-bottom:8px;padding:11px 14px;border-radius:10px;border:1px solid var(--line);background:#fdfaf2;cursor:pointer;font-size:.9rem;color:var(--ink2);transition:.22s}
+.opt:hover{border-color:var(--violet);background:#f8f2fa}
+.opt.right{background:#e8f3ea;border-color:#4c8b58;color:#25572f;font-weight:700}
+.opt.wrong{background:#fbeceb;border-color:var(--cinnabar-l);color:#8e2a22}
+.opt.dis{pointer-events:none;opacity:.85}
+.fb{font-size:.86rem;color:var(--ink2);background:#fbf7ec;border-left:3px solid var(--gold);padding:10px 13px;border-radius:0 8px 8px 0;margin-top:6px;animation:fade .35s}
+.qq{background:#fffdf6;border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin-bottom:12px}
+.qq .t{font-weight:700;margin-bottom:11px;font-size:.96rem}
+.qq .t em{font-style:normal;color:var(--cinnabar);margin-right:8px}
+.qq .ex{display:none;font-size:.86rem;background:#fbf7ec;border-left:3px solid var(--cinnabar);padding:10px 13px;border-radius:0 8px 8px 0;margin-top:9px;color:var(--ink2)}
+.qq.graded .ex{display:block;animation:fade .35s}
+.score{display:flex;align-items:center;gap:18px;flex-wrap:wrap;background:linear-gradient(120deg,#241f19,#3b332a);color:#f7f1e3;border-radius:var(--r);padding:18px 22px;margin-bottom:18px}
+.score b{font-size:2.1rem;color:var(--gold-l);font-weight:900;line-height:1}
+.score span{font-size:.86rem;opacity:.85}
+.score .btn{background:rgba(255,253,246,.12);color:#f7f1e3;border-color:rgba(247,241,227,.35)}
+.score .btn:hover{background:var(--gold);color:#241f19}
+.score .btn.solid{background:var(--cinnabar);border-color:var(--cinnabar-l)}
+.score .btn.solid:hover{background:var(--cinnabar-l);color:#fff6ea}
+.game{position:relative;background:linear-gradient(180deg,#1b1a20,#2c2430);border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow);min-height:400px;display:flex;flex-direction:column;justify-content:flex-end;border:1px solid rgba(217,181,106,.28)}
+.game .bg{position:absolute;inset:0;opacity:.5;pointer-events:none}
+.game .spk{position:relative;z-index:2;padding:0 24px}
+.game .name{display:inline-block;background:var(--gold);color:#221c14;padding:4px 18px;border-radius:8px 8px 0 0;font-size:.86rem;font-weight:900;letter-spacing:.2em}
+.game .box{position:relative;z-index:2;margin:0 18px 18px;background:rgba(12,10,14,.82);border:1px solid rgba(217,181,106,.4);border-radius:12px;padding:20px 22px;color:#f2e9d8;font-size:1.02rem;min-height:118px;cursor:pointer;letter-spacing:.04em}
+.game .box .cur{display:inline-block;width:8px;height:1.05em;background:var(--gold-l);vertical-align:-2px;animation:blink .8s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.game .hint{position:absolute;right:26px;bottom:26px;z-index:3;font-size:.74rem;color:rgba(242,233,216,.55);letter-spacing:.16em}
+.game .top{position:absolute;top:14px;left:20px;right:20px;z-index:3;display:flex;justify-content:space-between;font-size:.76rem;color:rgba(242,233,216,.6);letter-spacing:.2em}
+.badges{display:grid;grid-template-columns:repeat(auto-fit,minmax(158px,1fr));gap:14px}
+.badge{background:var(--paper2);border:1px solid var(--line);border-radius:12px;padding:18px 14px;text-align:center;transition:.3s;position:relative;overflow:hidden}
+.badge .ic{width:56px;height:56px;margin:0 auto 10px;border-radius:50%;display:grid;place-items:center;font-size:1.5rem;background:#eee6d4;border:2px solid var(--line);filter:grayscale(1);opacity:.55;transition:.35s}
+.badge b{display:block;font-size:.94rem;letter-spacing:.1em}
+.badge span{display:block;font-size:.74rem;color:var(--muted);margin-top:4px}
+.badge.got{border-color:var(--gold);box-shadow:0 6px 18px rgba(176,137,63,.18)}
+.badge.got .ic{filter:none;opacity:1;background:linear-gradient(150deg,#f6e6c2,#e0c488);border-color:var(--gold)}
+.badge.got::after{content:"已得";position:absolute;top:8px;right:8px;background:var(--cinnabar);color:#fff;font-size:.62rem;padding:1px 7px;border-radius:999px;letter-spacing:.1em}
+.ety{display:flex;align-items:center;justify-content:center;gap:18px;flex-wrap:wrap;padding:18px 0}
+.ety .zi{width:112px;height:112px;border-radius:12px;display:grid;place-items:center;font-size:3rem;font-weight:900;border:1px solid var(--line);background:#fffdf6;margin:0 auto}
+.ety .zi.gold{background:linear-gradient(150deg,#f7ecd2,#ecd9ae);border-color:var(--gold);color:#7a5a1c}
+.ety .op{font-size:1.7rem;color:var(--gold);font-weight:900}
+.ety figcaption{text-align:center;font-size:.78rem;color:var(--muted);margin-top:6px;letter-spacing:.08em}
+.ety .arrow{animation:pulse 2.2s ease-in-out infinite}
+@keyframes pulse{0%,100%{transform:translateX(0);opacity:.6}50%{transform:translateX(5px);opacity:1}}
+table{width:100%;border-collapse:collapse;font-size:.87rem;margin:10px 0}
+th,td{border:1px solid var(--line);padding:9px 11px;text-align:left}
+th{background:#f4ecd9;font-weight:900;letter-spacing:.08em}
+td{color:var(--ink2)}
+tr:nth-child(even) td{background:rgba(253,249,239,.6)}
+.note{font-size:.85rem;color:var(--muted);background:#fbf7ec;border-radius:10px;padding:11px 14px;border:1px dashed var(--gold-l);margin-top:12px}
+.quotebox{border-left:3px solid var(--cinnabar);background:rgba(255,253,246,.85);padding:12px 16px;font-size:.94rem;color:var(--ink2);border-radius:0 8px 8px 0;margin:12px 0}
+.quotebox em{display:block;font-style:normal;font-size:.78rem;color:var(--muted);margin-top:4px}
+.flow{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+.flow .st{background:#fffdf6;border:1px solid var(--line);border-radius:12px;padding:14px;text-align:center;position:relative}
+.flow .st b{display:block;color:var(--teal);font-size:1rem;letter-spacing:.14em;margin-bottom:4px}
+.flow .st span{font-size:.82rem;color:var(--muted)}
+.flow .st::after{content:"→";position:absolute;right:-13px;top:50%;transform:translateY(-50%);color:var(--gold);font-size:1.2rem;z-index:2}
+.flow .st:last-child::after{content:""}
+@media(max-width:720px){.flow{grid-template-columns:1fr}.flow .st::after{content:"↓";right:50%;top:auto;bottom:-17px;transform:translateX(50%)}}
+.rv{opacity:0;transform:translateY(26px);transition:.75s cubic-bezier(.2,.8,.3,1)}
+.rv.in{opacity:1;transform:none}
+.mask{position:fixed;inset:0;background:rgba(28,22,15,.66);backdrop-filter:blur(4px);z-index:500;display:none;align-items:center;justify-content:center;padding:20px}
+.mask.show{display:flex;animation:fade .3s}
+.modal{background:var(--paper2);border-radius:18px;max-width:660px;width:100%;max-height:88vh;overflow:auto;box-shadow:0 30px 70px rgba(0,0,0,.4);border:1px solid var(--gold-l);position:relative}
+.modal .mh{padding:22px 56px 14px 26px;border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--paper2);z-index:3}
+.modal .mh .k{font-size:.74rem;letter-spacing:.24em;color:var(--gold);font-weight:700}
+.modal .mh h3{font-size:1.28rem;letter-spacing:.1em;margin-top:4px}
+.modal .mb{padding:18px 26px 26px}
+.modal .x{position:absolute;right:18px;top:18px;width:32px;height:32px;border-radius:50%;border:1px solid var(--line);background:#fff;cursor:pointer;font-size:1rem;color:var(--muted);line-height:1;z-index:5}
+.modal .x:hover{background:var(--cinnabar);color:#fff;border-color:var(--cinnabar)}
+.urlbox{word-break:break-all;background:#f4ecd9;border:1px dashed var(--gold);border-radius:10px;padding:10px 13px;font-size:.8rem;font-family:ui-monospace,Menlo,Consolas,monospace;color:var(--ink);margin:10px 0}
+.urlbox b{font-family:'Noto Serif TC',serif;letter-spacing:.1em;display:block;font-size:.78rem;color:var(--muted);margin-bottom:2px}
+.urlin{width:100%;background:#12100e;border:1px dashed rgba(217,181,106,.6);color:#f0e4c8;border-radius:9px;padding:10px 12px;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.78rem;margin:10px 0;word-break:break-all}
+.urlin:focus{outline:2px solid var(--gold-l)}
+.toast{position:fixed;left:50%;bottom:34px;transform:translate(-50%,120%);background:var(--ink);color:#f7f1e3;padding:12px 24px;border-radius:999px;font-size:.88rem;z-index:600;transition:.4s cubic-bezier(.2,.8,.3,1);box-shadow:0 12px 30px rgba(0,0,0,.3);letter-spacing:.04em;max-width:90vw;text-align:center}
+.toast.show{transform:translate(-50%,0)}
+.fab{position:fixed;right:18px;bottom:18px;z-index:400}
+.fab>button{width:58px;height:58px;border-radius:50%;border:0;background:var(--cinnabar);color:#fff6ea;font-size:1.4rem;cursor:pointer;box-shadow:0 10px 26px rgba(156,43,35,.4);transition:.3s}
+.fab>button:hover{transform:scale(1.07);background:var(--cinnabar-l)}
+.fab-panel{position:absolute;right:0;bottom:70px;width:320px;background:var(--paper2);border:1px solid var(--gold-l);border-radius:14px;box-shadow:0 20px 50px rgba(0,0,0,.32);padding:16px;display:none}
+.fab.open .fab-panel{display:block;animation:fade .25s}
+.fab-panel h5{margin:0 0 4px;font-size:.94rem;letter-spacing:.14em;color:var(--cinnabar)}
+.fab-panel .tip{font-size:.73rem;color:var(--muted);margin-bottom:10px;line-height:1.6}
+.fab-item{border-top:1px dashed var(--line);padding:10px 0}
+.fab-item b{display:block;font-size:.85rem;letter-spacing:.06em;margin-bottom:3px}
+.fab-item small{display:block;font-size:.64rem;color:var(--muted);word-break:break-all;margin-bottom:7px;font-family:ui-monospace,Menlo,Consolas,monospace}
+.fab-item .btn{padding:6px 11px;font-size:.74rem}
+footer{padding:44px 0 96px;text-align:center;color:var(--muted);font-size:.86rem}
+footer .lnk{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:16px 0}
+footer .lnk a{padding:9px 18px;border:1px solid var(--line);border-radius:999px;background:var(--paper2);font-size:.85rem;color:var(--ink)!important;text-decoration:none!important}
+footer .lnk a:hover{border-color:var(--cinnabar);color:var(--cinnabar)!important;background:#fff}
+@media(max-width:760px){.hero-grid{grid-template-columns:1fr}.ring-box{flex-direction:row;justify-content:flex-start;gap:18px}.stamp{width:84px;height:84px;font-size:1.2rem}section{padding:44px 0}.fab-panel{width:calc(100vw - 36px)}}
+</style>
+</head>
+<body>
+
+<!-- ============ HERO ============ -->
+<header class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="eyebrow">十三經 · 小戴禮記 · 曲禮</div>
+      <h1>禮記選 <em>互動學習地圖</em></h1>
+      <p class="sub">彙整三大學習徑道：<b>文本選讀</b>（釋禮・字源・源流・今禮・曲禮・義理）、<b>邏輯思辨</b>（曲禮三問：定位・規範・實踐）與<b>風雅敘事</b>（〈曲禮〉視覺小說遊戲）。</p>
+      <div class="quote">毋不敬，儼若思，安定辭，安民哉！<span>──《禮記 · 曲禮上》卷首</span></div>
+      <div class="lkg" style="margin-top:22px">
+        <a class="btn solid" href="#links">🔗 原站連結中心（可直接開啟）</a>
+        <a class="btn dark" href="#map">▼ 徐徐展卷</a>
+        <a class="btn" href="#path1">徑一 文本</a>
+        <a class="btn" href="#path2">徑二 思辨</a>
+        <a class="btn ghost" href="#path3">徑三 遊戲</a>
+      </div>
+    </div>
+    <div class="ring-box">
+      <div class="stamp"><i>禮</i><i>記</i><i>選</i><i class="s2">研習</i></div>
+      <div class="ring">
+        <svg width="132" height="132">
+          <circle cx="66" cy="66" r="57" fill="none" stroke="rgba(60,48,32,.13)" stroke-width="9"/>
+          <circle id="ringFg" cx="66" cy="66" r="57" fill="none" stroke="#9c2b23" stroke-width="9" stroke-linecap="round"
+                  stroke-dasharray="358" stroke-dashoffset="358" style="transition:stroke-dashoffset .8s cubic-bezier(.2,.8,.3,1)"/>
+        </svg>
+        <div class="val"><div><b id="ringPct">0%</b><span>研習進度</span></div></div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ============ 連結中心：五種開啟方式，必有一種可用 ============ -->
+<div class="linkbar" id="links">
+  <div class="wrap">
+    <h3>🔗 原 站 連 結 中 心</h3>
+    <p class="lead">
+      每個網站都提供 <b>五種開啟方式</b>。若「新分頁」按下去沒有反應（預覽視窗常會封鎖彈出），請改按
+      <b>「本視窗開啟」</b> 或 <b>「自動嘗試」</b>；若仍無效，請<b>點一下網址欄（會自動全選）→ 按 Ctrl+C（Mac：⌘C）→ 貼到瀏覽器網址列</b>，此法必定可用。
+    </p>
+    <div class="lb-grid" id="lbGrid"></div>
+    <div class="lb-status" id="lbStatus"></div>
+    <div class="lb-help">
+      <b>為什麼連結會「點不動」？</b>
+      <ol>
+        <li>本頁若在<b>聊天／預覽視窗（iframe 沙盒）</b>中顯示，瀏覽器會基於安全封鎖 <code>target="_blank"</code> 與 <code>window.open()</code>，此時「本視窗開啟」與「複製網址」不受影響。</li>
+        <li>最彻底的做法：按下方<b>「下載本頁為 HTML 檔」</b>，用瀏覽器（Chrome／Edge／Safari）開啟該檔案，所有連結即可正常點擊。</li>
+        <li>或直接把上方任一網址複製到瀏覽器網址列前往，效果完全相同。</li>
+      </ol>
+      <div class="lkg" style="margin-top:12px">
+        <button class="btn gold" type="button" id="dlBtn">⬇ 下載本頁為 HTML 檔（用瀏覽器開啟即可點擊所有連結）</button>
+        <button class="btn ghost" type="button" id="copyAll" style="color:#fdf3e6;border-color:rgba(217,181,106,.5)">📋 一次複製三個網址</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ NAV ============ -->
+<nav class="topnav">
+  <div class="wrap">
+    <a href="#links" class="hot">🔗 原站連結</a>
+    <a href="#map"><span class="nb"></span>學習地圖</a>
+    <a href="#path1">徑一 文本選讀</a>
+    <a href="#path2">徑二 邏輯思辨</a>
+    <a href="#path3">徑三 風雅敘事</a>
+    <a href="#practice">練習場</a>
+    <a href="#badges">成就</a>
+  </div>
+</nav>
+
+<!-- ============ MAP ============ -->
+<section id="map">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div class="sec-idx">零</div>
+      <h2>總覽 · 三徑學習地圖</h2>
+      <div class="tag"><span class="pill p1">徑一 文本選讀</span><span class="pill p2">徑二 邏輯思辨</span><span class="pill p3">徑三 風雅敘事</span></div>
+    </div>
+    <p class="sec-desc rv">地圖共 <b id="nodeTotal">18</b> 個研習節點。點選節點可檢視該卷要點、開啟原站並標記完成；已研讀之節點轉為金色，進度自動儲存於瀏覽器。</p>
+    <div class="map-tools rv">
+      <button class="tbtn act" data-f="all" type="button">全部顯示</button>
+      <button class="tbtn" data-f="p1" type="button">徑一 · 文本選讀</button>
+      <button class="tbtn" data-f="p2" type="button">徑二 · 邏輯思辨</button>
+      <button class="tbtn" data-f="p3" type="button">徑三 · 風雅敘事</button>
+      <button class="tbtn" id="btnExpand" type="button">展開／收合該徑全部卷次</button>
+      <button class="tbtn" id="btnReset" type="button">↺ 重置進度</button>
+    </div>
+    <div class="mapbox rv">
+      <svg id="mapsvg" viewBox="0 0 1200 660" preserveAspectRatio="xMidYMid meet" role="img" aria-label="禮記選學習地圖"></svg>
+      <div class="map-tip" id="mapTip"></div>
+    </div>
+    <div class="legend rv">
+      <span><i style="background:#9c2b23"></i>徑一：文本選讀（卷壹至卷捌）</span>
+      <span><i style="background:#2b5f6b"></i>徑二：邏輯思辨（曲禮三問・卷一至卷五）</span>
+      <span><i style="background:#6d5580"></i>徑三：風雅敘事（〈曲禮〉遊戲）</span>
+      <span><i style="background:#b0893f"></i>已研讀</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PATH 1 ============ -->
+<section id="path1" style="--acc:#9c2b23">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div class="sec-idx">壹</div>
+      <h2>徑一 · 《禮記》選 · 文本選讀</h2>
+      <div class="tag"><span class="pill p1">八卷</span></div>
+    </div>
+    <p class="sec-desc rv">禮 —— 中國傳統文化的特徵：於國為<b>典章制度</b>，於社會為<b>生活習慣</b>，於個人為<b>行為規範</b>。本課課文皆選自《禮記》中的〈曲禮〉。</p>
+    <div class="card rv" style="background:#fffdf6" id="g1"></div>
+    <div class="acc" id="acc1" style="margin-top:18px"></div>
+  </div>
+</section>
+
+<!-- ============ PATH 2 ============ -->
+<section id="path2" style="--acc:#2b5f6b">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div class="sec-idx">貳</div>
+      <h2>徑二 · 曲禮三問 · 邏輯思辨</h2>
+      <div class="tag"><span class="pill p2">定位・規範・實踐</span></div>
+    </div>
+    <p class="sec-desc rv">從邏輯思辨重讀《禮記 · 曲禮》。三問成「<b>前提 → 推論 → 驗證</b>」之論證鏈：定位為前提，規範為推論，實踐為驗證與修正。</p>
+    <div class="card rv" style="background:#fffdf6" id="g2"></div>
+    <div class="flow rv" style="margin-top:20px">
+      <div class="st"><b>第一問 · 定位</b><span>我是誰 ── 生命階段與社會名分。名不正則言不順。</span></div>
+      <div class="st"><b>第二問 · 規範</b><span>當守何則 ── 由名分推出雙向義務，身分不同準則即異。</span></div>
+      <div class="st"><b>第三問 · 實踐</b><span>如何落實 ── 化為時間、空間、身體、言語之具體動作。</span></div>
+    </div>
+    <div class="acc" id="acc2" style="margin-top:22px"></div>
+
+    <div class="card rv" style="margin-top:26px;background:#fffdf6">
+      <h4 style="margin:0 0 4px;color:var(--teal);letter-spacing:.12em;font-size:1.12rem">一之一 · 十段年齡軸</h4>
+      <p style="font-size:.9rem;color:var(--muted);margin:0 0 6px">點擊節點研讀：每一階段同時被賦予「身分」、「義務」與「豁免」。</p>
+      <div class="tl" id="tl"></div>
+      <div class="tl-detail" id="tlDetail"></div>
+      <div class="quotebox" style="margin-top:16px">
+        人生十年曰幼，學。二十曰弱，冠。三十曰壯，有室。四十曰強，而仕。五十曰艾，服官政。六十曰耆，指使。七十曰老，而傳。八十、九十曰耄。七年曰悼。悼與耄，雖有罪，不加刑焉。百年曰期、頤。
+        <em>──《禮記 · 曲禮上》第七節</em>
+      </div>
+    </div>
+
+    <div class="card rv" style="margin-top:22px;background:#fffdf6">
+      <h4 style="margin:0 0 4px;color:var(--teal);letter-spacing:.12em;font-size:1.12rem">二之二 · 身分準則檢核表 → 四之二 修身箋</h4>
+      <p style="font-size:.9rem;color:var(--muted);margin:0 0 14px">點選身分標題以納入，再逐條勾選「本週已踐行」之準則，末可生成個人日課「修身箋」。</p>
+      <div class="roles" id="roles"></div>
+      <div class="lkg" style="margin-top:18px">
+        <button class="btn solid" id="mkJian" type="button">✎ 生成修身箋</button>
+        <button class="btn" id="copyJian" type="button">複製日課</button>
+        <button class="btn ghost" id="clearRoles" type="button">清空勾選</button>
+      </div>
+      <div class="jian" id="jian" style="display:none"><pre id="jianText"></pre></div>
+    </div>
+
+    <div class="card rv" style="margin-top:22px;background:#fffdf6">
+      <h4 style="margin:0 0 4px;color:var(--teal);letter-spacing:.12em;font-size:1.12rem">三之二 · 十二時辰生活禮儀軸</h4>
+      <p style="font-size:.9rem;color:var(--muted);margin:0 0 12px">「曲」者，委曲詳盡 ── 禮必須化為容體、辭氣、器物、方位、時序的可執行動作。點擊時辰查看。</p>
+      <div class="shichen" id="shichen"></div>
+      <div class="tl-detail" id="scDetail" style="margin-top:14px;border-left-color:var(--violet)"></div>
+    </div>
+
+    <div class="card rv" style="margin-top:22px;background:#fffdf6">
+      <h4 style="margin:0 0 4px;color:var(--violet);letter-spacing:.12em;font-size:1.12rem">三之三 · 日常情境判斷（先選，後讀疏解）</h4>
+      <p style="font-size:.9rem;color:var(--muted);margin:0 0 6px">共七則，答對 <b id="scnOk">0</b> / 7。選項每次隨機排列。</p>
+      <div id="scnList"></div>
+      <button class="btn" id="scnReset" type="button" style="margin-top:6px">↻ 重新作答情境題</button>
+    </div>
+
+    <div class="card rv" style="margin-top:22px;background:#fffdf6">
+      <h4 style="margin:0 0 4px;color:var(--teal);letter-spacing:.12em;font-size:1.12rem">四之一 · 思辨方法工具箱（六法）</h4>
+      <p style="font-size:.9rem;color:var(--muted);margin:0 0 12px">〈曲禮〉的論述方式本身即是一套邏輯技藝，皆於經文中取得實例。</p>
+      <div class="grid2" id="methods"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PATH 3 ============ -->
+<section id="path3" style="--acc:#6d5580">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div class="sec-idx">參</div>
+      <h2>徑三 · 禮記曲禮 ～ 風雅敘事 ～</h2>
+      <div class="tag"><span class="pill p3">互動遊戲</span></div>
+    </div>
+    <p class="sec-desc rv">內容依據《禮記》選（〈曲禮〉）與「禮之概談」補充講義編撰之視覺小說。點擊對話框或按空白鍵推進；主選單含<b>始入書院</b>、<b>續讀前卷</b>、<b>禮典 · 知識</b>、<b>設定</b>、<b>本作說明</b>，結業後可「<b>閱覽禮典</b>」或「<b>重新修習</b>」，成為「<b>循禮之士</b>」。</p>
+    <div class="card rv" style="background:#fffdf6" id="g3"></div>
+    <div class="acc" id="acc3" style="margin-top:18px"></div>
+    <div class="card rv" style="margin-top:26px;background:#fffdf6">
+      <h4 style="margin:0 0 12px;color:var(--violet);letter-spacing:.12em;font-size:1.12rem">試玩 · 書院一幕（節錄演示）</h4>
+      <div class="game" id="game">
+        <div class="bg">
+          <svg width="100%" height="100%" viewBox="0 0 800 400" preserveAspectRatio="xMidYMid slice">
+            <defs><linearGradient id="gsky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3a3040"/><stop offset="1" stop-color="#241f2a"/></linearGradient></defs>
+            <rect width="800" height="400" fill="url(#gsky)"/>
+            <circle cx="640" cy="86" r="34" fill="#e8d7ae" opacity=".5"/>
+            <path d="M0 300 Q130 250 250 292 T520 288 T800 268 V400 H0Z" fill="#1d1a22" opacity=".85"/>
+            <g fill="#171420" opacity=".95">
+              <path d="M180 296 L300 296 L292 262 L188 262Z"/><path d="M170 262 L310 262 L296 240 L184 240Z"/><path d="M196 240 L284 240 L240 208Z"/>
+              <rect x="212" y="266" width="16" height="30"/><rect x="252" y="266" width="16" height="30"/>
+            </g>
+            <g stroke="#d9b56a" stroke-opacity=".25" fill="none"><path d="M0 330 H800"/><path d="M0 356 H800"/></g>
+          </svg>
+        </div>
+        <div class="top"><span>禮記曲禮 · 風雅敘事</span><span id="gCount">1 / 9</span></div>
+        <div class="spk"><span class="name" id="gName">旁白</span></div>
+        <div class="box" id="gBox"><span id="gText"></span><span class="cur"></span></div>
+        <div class="hint">點擊對話框或按空白鍵推進 ▸</div>
+      </div>
+      <div class="lkg" style="margin-top:14px">
+        <button class="btn solid" id="gStart" type="button">▶ 始入書院（重新播放）</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PRACTICE ============ -->
+<section id="practice">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div class="sec-idx">肆</div>
+      <h2>練習場 · 小試身手（十題自測）</h2>
+      <div class="tag"><span class="pill">交卷後即見詳解</span></div>
+    </div>
+    <p class="sec-desc rv">題目取自〈卷捌 · 小試身手〉，涵蓋字源訓詁、三禮源流、婚喪儀制、五服制度與〈曲禮〉文句理解。</p>
+    <div class="score rv">
+      <div><b id="qScore">0</b><span> / 10 分</span></div>
+      <span id="qMsg">尚未交卷 ── 作答完畢請按「交卷批改」。</span>
+      <div class="lkg" style="margin-left:auto">
+        <button class="btn solid" id="qSubmit" type="button">交卷批改</button>
+        <button class="btn" id="qReset" type="button">↻ 重新作答</button>
+      </div>
+    </div>
+    <div id="quiz"></div>
+  </div>
+</section>
+
+<!-- ============ BADGES ============ -->
+<section id="badges">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div class="sec-idx">伍</div>
+      <h2>成就 · 循禮之士</h2>
+      <div class="tag"><span class="pill" id="badgeCount">0 / 9</span></div>
+    </div>
+    <p class="sec-desc rv">依研習節點、情境判斷、研習測驗與修身箋之完成度解鎖。</p>
+    <div class="badges" id="badgeWall"></div>
+    <div class="card rv" style="margin-top:26px;background:#fffdf6">
+      <h4 style="margin:0 0 10px;color:var(--cinnabar);letter-spacing:.12em">研習統計</h4>
+      <div class="kv" id="stats"></div>
+      <div class="lkg" style="margin-top:14px"><a class="btn solid" href="#links">🔗 回到原站連結中心</a></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div style="font-size:1.2rem;letter-spacing:.3em;color:var(--ink2);font-weight:900">禮 記 選 · 學 習 地 圖</div>
+    <div class="lnk" id="footLinks"></div>
+    <div style="font-size:.76rem;word-break:break-all;line-height:2" id="footUrls"></div>
+    <div style="margin-top:10px">毋不敬 · 儼若思 · 安定辭　｜　進度儲存於本機瀏覽器</div>
+  </div>
+</footer>
+
+<!-- ============ FAB ============ -->
+<div class="fab" id="fab">
+  <div class="fab-panel">
+    <h5>快 速 開 啟 原 站</h5>
+    <div class="tip">若「新分頁」無反應，請按「本視窗」；再無效請按「自動」或複製網址。</div>
+    <div id="fabList"></div>
+  </div>
+  <button type="button" id="fabBtn" aria-label="開啟原站連結">🔗</button>
+</div>
+
+<!-- 節點詳情 -->
+<div class="mask" id="mask"><div class="modal">
+  <button class="x" id="mx" type="button">✕</button>
+  <div class="mh"><div class="k" id="mK"></div><h3 id="mT"></h3></div>
+  <div class="mb" id="mB"></div>
+</div></div>
+
+<!-- 連結備援 -->
+<div class="mask" id="linkMask"><div class="modal" style="max-width:580px">
+  <button class="x" id="lx" type="button">✕</button>
+  <div class="mh"><div class="k">連結備援 · 四種方式任擇其一</div><h3 id="lkTitle">開啟原站</h3></div>
+  <div class="mb">
+    <p style="font-size:.92rem;color:var(--ink2)">請依序嘗試；<b>方式③（複製網址）必定可用</b>：</p>
+    <input class="urlin" id="lkInput" readonly value="">
+    <div class="lkg">
+      <button class="btn solid" id="lkSelf" type="button">① 在本視窗開啟</button>
+      <button class="btn dark" id="lkTop" type="button">② 在最上層開啟</button>
+      <button class="btn gold" id="lkCopy" type="button">③ 複製網址</button>
+      <button class="btn" id="lkSel" type="button">④ 全選網址文字</button>
+      <button class="btn ghost" id="lkClose" type="button">關 閉</button>
+    </div>
+    <p class="note" style="margin-top:14px">說明：部分預覽環境（iframe 沙盒）會封鎖 <code>target="_blank"</code>、<code>window.open()</code> 與跨頁跳轉。若①②皆無反應，請用③或④取得網址後，自行貼到瀏覽器網址列；亦可於「原站連結中心」按「下載本頁為 HTML 檔」，用瀏覽器開啟後所有連結即可正常點擊。</p>
+  </div>
+</div></div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* =====================================================================
+   連結引擎：不攔截原生行為，並提供 5 種開啟途徑 + 自動降級 + 狀態提示
+===================================================================== */
+const URLS={
+  p1:'https://p3688905-bit.github.io/Detailed-Rites1',
+  p2:'https://p3688905-bit.github.io/Detailed-Rites2',
+  p3:'https://p3688905-bit.github.io/Detailed-Rites3'
+};
+const SITES=[
+  {p:'p1',tag:'徑一 · 文本選讀',n:'禮記選文本選讀',d:'《禮記》選 ── 釋禮・字源・禮之初・源流・今禮・曲禮・義理・小試身手，共八卷。'},
+  {p:'p2',tag:'徑二 · 邏輯思辨',n:'禮記選邏輯思辨（曲禮三問）',d:'定位・規範・實踐 ── 十段年齡軸、身分檢核、十二時辰、七則情境判斷、思辨六法與十二題測驗。'},
+  {p:'p3',tag:'徑三 · 風雅敘事（遊戲）',n:'禮記 · 曲禮 ～風雅敘事～',d:'視覺小說式互動遊戲 ── 始入書院・續讀前卷・禮典知識・循禮之士・閱覽禮典・重新修習。'}
+];
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');clearTimeout(t._h);t._h=setTimeout(()=>t.classList.remove('show'),2600);}
+function setStatus(m){const el=document.getElementById('lbStatus');if(el)el.textContent=m?'▸ '+m:'';}
+function copyText(t,msg){
+  const ok=()=>toast(msg||'已複製');
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(ok,fb);}else fb();
+  function fb(){
+    const ta=document.createElement('textarea');ta.value=t;ta.setAttribute('readonly','');
+    ta.style.position='fixed';ta.style.top='0';ta.style.left='0';ta.style.opacity='0';
+    document.body.appendChild(ta);ta.select();ta.setSelectionRange(0,t.length);
+    try{document.execCommand('copy');ok();}catch(e){toast('請手動選取網址後按 Ctrl+C 複製');}
+    ta.remove();
+  }
+}
+/* 五種開啟方式 */
+function openBlank(u){try{const w=window.open(u,'_blank','noopener,noreferrer');return !!w;}catch(e){return false;}}
+function openAnchor(u){try{const a=document.createElement('a');a.href=u;a.target='_blank';a.rel='noopener noreferrer';a.style.display='none';document.body.appendChild(a);a.click();setTimeout(()=>a.remove(),400);return true;}catch(e){return false;}}
+function openForm(u){try{const f=document.createElement('form');f.method='GET';f.action=u;f.target='_blank';f.style.display='none';document.body.appendChild(f);f.submit();setTimeout(()=>f.remove(),1200);return true;}catch(e){return false;}}
+function openSelf(u){try{window.location.href=u;return true;}catch(e){return false;}}
+function openTop(u){try{window.top.location.href=u;return true;}catch(e){try{window.parent.location.href=u;return true;}catch(e2){return false;}}}
+/* 自動降級：新分頁 → 錨點 → 表單 → 本視窗 → 頂層 → 備援面板 */
+function autoOpen(u,name){
+  setStatus('嘗試 1/5：以新分頁開啟「'+name+'」…');
+  if(openBlank(u)){setTimeout(()=>{if(document.hidden){setStatus('');toast('已於新分頁開啟：'+name);}else step2();},800);return;}
+  step2();
+  function step2(){
+    setStatus('新分頁被封鎖 → 嘗試 2/5：以隱藏錨點開啟…');
+    openAnchor(u);setTimeout(()=>{if(document.hidden){setStatus('');}else step3();},800);
+  }
+  function step3(){
+    setStatus('仍被阻擋 → 嘗試 3/5：以表單提交開啟新分頁…');
+    openForm(u);setTimeout(()=>{if(document.hidden){setStatus('');}else step4();},800);
+  }
+  function step4(){
+    setStatus('彈出視窗全數被封鎖 → 嘗試 4/5：於本視窗直接跳轉…');
+    openSelf(u);setTimeout(()=>step5(),900);
+  }
+  function step5(){
+    setStatus('嘗試 5/5：於最上層視窗跳轉…');
+    openTop(u);setTimeout(()=>{
+      setStatus('此環境封鎖所有跳轉 ── 已開啟備援面板，請複製網址至瀏覽器開啟。');
+      linkHelp(u,name);
+    },900);
+  }
+}
+/* 備援面板 */
+let pendingURL='';
+function linkHelp(u,name){
+  pendingURL=u;
+  document.getElementById('lkTitle').textContent=name||'開啟原站';
+  document.getElementById('lkInput').value=u;
+  document.getElementById('linkMask').classList.add('show');
+}
+document.getElementById('lkSelf').onclick=()=>{document.getElementById('linkMask').classList.remove('show');openSelf(pendingURL);};
+document.getElementById('lkTop').onclick=()=>{if(!openTop(pendingURL)){toast('此環境封鎖跳轉，請改用複製網址');}};
+document.getElementById('lkCopy').onclick=()=>copyText(pendingURL,'已複製網址，請貼到瀏覽器網址列');
+document.getElementById('lkSel').onclick=()=>{const i=document.getElementById('lkInput');i.focus();i.select();i.setSelectionRange(0,99999);toast('已全選，請按 Ctrl+C（Mac：⌘C）複製');};
+document.getElementById('lkClose').onclick=()=>document.getElementById('linkMask').classList.remove('show');
+document.getElementById('lx').onclick=()=>document.getElementById('linkMask').classList.remove('show');
+document.getElementById('linkMask').addEventListener('click',e=>{if(e.target.id==='linkMask')e.currentTarget.classList.remove('show');});
+document.getElementById('lkInput').addEventListener('focus',function(){this.select();});
+
+/* 全域委派：複製鈕 / 自動鈕 / 網址欄自動全選（皆不攔截 <a> 原生行為） */
+document.addEventListener('click',function(e){
+  const cp=e.target.closest('[data-copy]');
+  if(cp){copyText(cp.getAttribute('data-copy'),'已複製網址，請貼到瀏覽器網址列');}
+  const ao=e.target.closest('[data-auto]');
+  if(ao){autoOpen(ao.getAttribute('data-auto'),ao.getAttribute('data-name')||'原站');}
+  const ui=e.target.closest('.lb-url,.urlin');
+  if(ui){ui.focus();ui.select();ui.setSelectionRange(0,99999);}
+});
+/* 下載本頁 */
+document.getElementById('dlBtn').addEventListener('click',function(){
+  try{
+    const html='<!DOCTYPE html>\n'+document.documentElement.outerHTML;
+    const blob=new Blob([html],{type:'text/html;charset=utf-8'});
+    const ou=window.URL.createObjectURL(blob);
+    const a=document.createElement('a');a.href=ou;a.download='禮記選互動學習地圖.html';
+    document.body.appendChild(a);a.click();setTimeout(()=>a.remove(),300);
+    setTimeout(()=>window.URL.revokeObjectURL(ou),4000);
+    toast('已開始下載；用瀏覽器開啟該檔，所有連結即可點擊');
+  }catch(e){toast('下載被阻擋，請改用「複製網址」');linkHelp(URLS.p1,'禮記選文本選讀');}
+});
+document.getElementById('copyAll').addEventListener('click',function(){
+  copyText(SITES.map(s=>s.n+'：'+URLS[s.p]).join('\n'),'已複製三個網址');
+});
+
+/* ============ 渲染連結中心 ============ */
+document.getElementById('lbGrid').innerHTML=SITES.map(s=>{
+  const u=URLS[s.p];
+  return '<div class="lb-item">'+
+    '<div class="lb-tag">'+s.tag+'</div><div class="lb-name">'+s.n+'</div>'+
+    '<p style="font-size:.8rem;color:rgba(244,236,219,.72);margin:0 0 10px">'+s.d+'</p>'+
+    '<input class="lb-url" readonly value="'+u+'" aria-label="'+esc(s.n)+' 網址">'+
+    '<div class="lb-btns">'+
+      '<a class="btn solid" href="'+u+'" target="_blank" rel="noopener noreferrer">🔗 新分頁</a>'+
+      '<a class="btn dark" href="'+u+'" rel="noopener noreferrer">➜ 本視窗</a>'+
+      '<a class="btn" href="'+u+'" target="_top" rel="noopener noreferrer">⤒ 最上層</a>'+
+      '<button class="btn gold" type="button" data-auto="'+u+'" data-name="'+esc(s.n)+'">⚙ 自動嘗試</button>'+
+      '<button class="btn" type="button" data-copy="'+u+'">📋 複製</button>'+
+    '</div></div>';
+}).join('');
+/* 各徑內的小型連結卡 */
+function siteCard(s){
+  const u=URLS[s.p];
+  return '<div style="display:flex;gap:14px;flex-wrap:wrap;align-items:center;justify-content:space-between">'+
+   '<div style="min-width:220px;flex:1"><span class="pill '+s.p+'">'+s.tag+'</span>'+
+   '<div style="font-weight:900;letter-spacing:.08em;margin:8px 0 4px">'+s.n+'</div>'+
+   '<div class="urlbox" style="margin:0"><b>網址（可點選全選後複製）</b>'+u+'</div></div>'+
+   '<div class="lkg">'+
+     '<a class="btn solid" href="'+u+'" target="_blank" rel="noopener noreferrer">🔗 新分頁開啟</a>'+
+     '<a class="btn dark" href="'+u+'" rel="noopener noreferrer">➜ 本視窗開啟</a>'+
+     '<button class="btn gold" type="button" data-auto="'+u+'" data-name="'+esc(s.n)+'">⚙ 自動嘗試</button>'+
+     '<button class="btn ghost" type="button" data-copy="'+u+'">📋 複製網址</button>'+
+   '</div></div>';
+}
+document.getElementById('g1').innerHTML=siteCard(SITES[0]);
+document.getElementById('g2').innerHTML=siteCard(SITES[1]);
+document.getElementById('g3').innerHTML=siteCard(SITES[2]);
+document.getElementById('fabList').innerHTML=SITES.map(s=>{
+  const u=URLS[s.p];
+  return '<div class="fab-item"><b>'+s.tag+'</b><small>'+u+'</small><span class="lkg">'+
+   '<a class="btn solid" href="'+u+'" target="_blank" rel="noopener noreferrer">新分頁</a>'+
+   '<a class="btn dark" href="'+u+'" rel="noopener noreferrer">本視窗</a>'+
+   '<button class="btn gold" type="button" data-auto="'+u+'" data-name="'+esc(s.n)+'">自動</button>'+
+   '<button class="btn ghost" type="button" data-copy="'+u+'">複製</button></span></div>';
+}).join('');
+document.getElementById('footLinks').innerHTML=SITES.map(s=>
+ '<a href="'+URLS[s.p]+'" target="_blank" rel="noopener noreferrer">'+s.tag.replace(/^徑.\s·\s/,'')+' ↗</a>').join('');
+document.getElementById('footUrls').innerHTML=SITES.map(s=>URLS[s.p]).join('<br>');
+document.getElementById('fabBtn').addEventListener('click',()=>document.getElementById('fab').classList.toggle('open'));
+document.addEventListener('click',e=>{const f=document.getElementById('fab');if(!f.contains(e.target))f.classList.remove('open');});
+
+/* ============ 內容資料 ============ */
+const PATHS={
+ p1:{name:'徑一 · 文本選讀',short:'文本選讀',color:'#9c2b23',url:URLS.p1},
+ p2:{name:'徑二 · 邏輯思辨',short:'邏輯思辨',color:'#2b5f6b',url:URLS.p2},
+ p3:{name:'徑三 · 風雅敘事',short:'風雅敘事',color:'#6d5580',url:URLS.p3}
+};
+const NODES=[
+ {id:'p1-1',p:'p1',k:'卷壹',t:'釋禮',s:'「禮」字的定義 · 禮的功用',
+  d:'「禮」是中國傳統文化的特徵：於國為典章制度，於社會為生活習慣，於個人為行為規範。欲讀〈曲禮〉，先識「禮」字之義。',
+  pts:['<b>作名詞用（五義）</b>：① 人類的行為規範 ② 表示尊敬的態度和動作（行禮、有禮）③ 因道德觀念與風俗習慣形成的儀式典禮（婚禮、喪禮、成年禮）④ 表示慶賀、友好或敬意所贈之物（禮物、禮金）⑤ 儒家的經典《禮記》','<b>作動詞用（二義）</b>：① 祭神祈福（本義為「祭」，與字源「豊」相合）② 尊敬、厚待（禮賢下士）','<b>三層結構</b>：國家的典章制度／社會的生活習慣／個人的行為規範']},
+ {id:'p1-2',p:'p1',k:'卷貳',t:'字源',s:'「禮」字的起源：從「豊」到「禮」',
+  d:'禮的本字為「豊」，一看就知道與祭祀有關。甲骨文之形：擊鼓奏樂，以玉奉神。',
+  pts:['<b>一本字為「豊」</b>：頂部像兩串美玉，底部像有支架的建鼓，合為「擊鼓奏樂」，用美玉敬奉祖先和神靈。','<b>二食器與祭器</b>：托盤狀的「豆」既是食器亦為祭器 ── 食器象徵物質寄託，祭器象徵精神寄託，與「民以食為天」相吻合。（器物參考：國立故宮博物院藏器）','<b>三加「示」而成「禮」</b>：因「豊」易與「豐」混淆，遂加「示」（祭桌）而成今字。']},
+ {id:'p1-3',p:'p1',k:'卷參',t:'禮之初',s:'最初的「禮」── 先於文字而存在',
+  d:'早在文字產生之前，禮就已在人們的生活中逐漸形成，有一定的規矩、一定的程序。',
+  pts:['<b>禮先於文字</b>：出生、成人、婚娶、生育、疾病、老死、安葬時，常舉行特別的儀式。','<b>儀式四要素</b>：飾物・衣服・器皿・歌舞（或歌或舞、或喜或悲，情見乎儀）。','<b>約定俗成</b>：禮由生活漸漸約定俗成，不可能由一人強制規定。']},
+ {id:'p1-4',p:'p1',k:'卷肆',t:'源流',s:'《禮記》的背景 · 三禮 · 成書過程',
+  d:'禮樂崩壞 → 重新制定：由周公制禮作樂，至漢叔孫通制訂宮廷禮儀。',
+  pts:['<b>源流五階</b>：西周周公制禮作樂 → 春秋禮樂自行其是 → 魯定公後禮樂崩壞，孔子與弟子堅持研習典禮 → 戰國荀況集大成（《荀子》首見〈禮論〉）→ 漢叔孫通制訂宮廷禮儀。','<b>三禮對照</b>：《周禮》政治制度／《儀禮》禮俗（冠昏喪祭鄉射朝聘）／《禮記》禮的理論。','<b>《禮記》四項內容</b>：說明禮文制度原意・闡論淑世拯民之理・記載祭祀養老制度・敘述生活行為規範。','<b>成書</b>：論禮之文凡 131 篇；戴德選 85 篇為《大戴禮記》（亡），戴聖選 49 篇為《小戴禮記》即今本，鄭玄注、孔穎達正義，收於《十三經》。']},
+ {id:'p1-5',p:'p1',k:'卷伍',t:'今禮',s:'現在常見的「禮」── 婚禮與喪禮',
+  d:'古代稱婚禮為「昏禮」，多在黃昏舉行：「昏禮者，將合二姓之好，上以事宗廟，而下以繼後世也，故君子重之。」',
+  pts:['<b>三書</b>：聘書（納吉）・禮書（納徵）・迎書（親迎）。','<b>六禮</b>：納采 → 問名 → 納吉 → 納徵 → 請期 → 親迎。','<b>喪禮七步</b>：小殮 → 報喪 → 奔喪 → 停靈 → 守靈 → 大殮 → 出殯和下葬。','<b>做七</b>：每七天至靈堂燒紙錢，共七次四十九天；末日稱「斷七」。','<b>守孝</b>：實際服孝三期，每期九個月，共 27 個月。','<b>五服</b>：斬衰・齊衰・大功・小功・緦麻。']},
+ {id:'p1-6',p:'p1',k:'卷陸',t:'曲禮',s:'〈曲禮〉介紹 · 課文選讀六則 · 字詞表',
+  d:'《禮記》首篇篇名，分上、下兩篇。以其篇記吉、凶、賓、軍、嘉五禮之事，明其委屈，故稱「曲禮」。',
+  pts:['<b>五禮</b>：吉（祭祀）・凶（哀弔）・賓（國際禮節）・軍（軍中禮儀）・嘉（婚禮）。','<b>內容之義</b>：多記禮文細微曲折之處，尤詳於言語、飲食、灑掃、應對、進退之法。','<b>課文選讀六則</b>：毋不敬章・人生百年章・為人子章・侍坐於先生章・侍坐於君子章・君子章。']},
+ {id:'p1-7',p:'p1',k:'卷柒',t:'義理',s:'〈曲禮〉重點總結 · 禮的現代意義 · 生活應用',
+  d:'〈曲禮〉蘊含親職教育、倫理教育、性別教育等面向，由個人修身、生活常規、待人接物、家庭倫理，擴展至生命的實踐。',
+  pts:['<b>尊師敬長之禮</b>：請業則起，請益則起；察其倦意而請出。','<b>孝親之禮</b>：出必告，反必面，所遊必有常，所習必有業。','<b>拜訪與待客之禮</b>：應對進退、言語飲食灑掃之法。','<b>四大現代意義</b>：① 尊重和謙讓 ② 守禮與規範 ③ 尊卑有序 ④ 自律與內省。']},
+ {id:'p1-8',p:'p1',k:'卷捌',t:'小試身手',s:'十題自測 · 交卷後即見詳解',
+  d:'涵蓋字源訓詁、三禮源流、篇數成書、六禮五服、喪俗做七與〈曲禮〉文句理解。',
+  pts:['本地圖「練習場」已完整收錄十題與詳解，可直接於站內作答。','重點回顧：禮之本字為「豊」；《周禮》述官制；今本《禮記》49 篇；納徵即致送聘禮；斬衰最重；第四十九天稱「斷七」。']},
+ {id:'p2-0',p:'p2',k:'總綱',t:'曲禮三問',s:'定位・規範・實踐 ── 從邏輯思辨重讀〈曲禮〉',
+  d:'「何謂曲禮」與「三問何以相續」：三者成「前提→推論→驗證」之論證鏈。',
+  pts:['<b>第一問 · 定位（我是誰）</b>：確認生命階段與社會名分。名不正則言不順。','<b>第二問 · 規範（當守何則）</b>：由名分推出雙向義務；身分不同，準則即異。','<b>第三問 · 實踐（如何落實）</b>：化為時間、空間、身體、言語之具體動作，並經情境判斷檢驗。','<b>論證鏈</b>：定位為前提，規範為推論，實踐為驗證與修正。']},
+ {id:'p2-1',p:'p2',k:'卷一',t:'定位',s:'人生各階段之責任與社會定位',
+  d:'《曲禮上》以十個名詞為人生分期：悼、幼、弱、壯、強、艾、耆、老、耄、期頤 ── 一套「命名→賦權→課責」的制度設計。',
+  pts:['<b>一之一 十段年齡軸</b>：每一階段同時被賦予身分、義務與豁免。','<b>一之二 社會定位四維度</b>：容貌辭氣・生死之名・祭祀之權・職分之問。','<b>一之三 邏輯思辨四辨</b>：豁免的對稱結構／「弱」而「冠」── 權利先於能力／「禮不下庶人，刑不上大夫」之正義／年齡序列的循環結構。','<b>一之四 正・反・合</b>：分期即賦責／僵化與排除／經權並用。']},
+ {id:'p2-2',p:'p2',k:'卷二',t:'規範',s:'人倫規範：身分與應守之行為準則',
+  d:'義務是雙向的、且隨關係性質而異其强度與可斷性：父子天合，故「三諫不聽則號泣而隨之」；君臣義合，故「三諫不聽則逃之」。',
+  pts:['<b>二之一 人倫關係圖</b>：父子・親／君臣・義／夫婦・別／兄弟・長幼・序／朋友・信／賓主・師生・敬。','<b>二之二 身分準則檢核表</b>：九種身分可複選並勾選「本週已踐行」之準則，於卷四生成「修身箋」。','<b>二之三 邏輯思辨四辨</b>：同一「諫」兩種結論／可量化的長幼規則／「自卑而尊人」的普遍性論證／時代局限之檢驗。','<b>二之四 正・反・合</b>：名分定則義務明／角色吞噬個人／身分為介面，敬為主體。']},
+ {id:'p2-3',p:'p2',k:'卷三',t:'實踐',s:'禮如何落實於生活',
+  d:'〈曲禮〉之「曲」，正指落實：禮必須化為容體、辭氣、器物、方位、時序的可執行動作。',
+  pts:['<b>三之一「毋不敬」三層落實模型</b>：心（毋不敬）→ 貌（儼若思）→ 言（安定辭）；並戒「敖不可長，欲不可從，志不可滿，樂不可極」。','<b>三之二 十二時辰生活禮儀軸</b>：由子至亥，將禮落實於一日之時序。','<b>三之三 日常情境判斷</b>：七則情境，先選後讀疏解。']},
+ {id:'p2-4',p:'p2',k:'卷四',t:'方法 · 修身箋',s:'思辨方法工具箱 ・ 修身箋生成器',
+  d:'〈曲禮〉的論述方式本身即是一套邏輯技藝，六法皆於經文中取得實例。',
+  pts:['<b>六法</b>：正名（名實之辨）・差等分類・條件句推理・對稱與互惠・下限檢驗（a fortiori）・經權之辨。','<b>四之二 修身箋</b>：依卷二勾選之身分與準則生成個人日課；未勾選者亦可「納入未踐之條」以自警。']},
+ {id:'p2-5',p:'p2',k:'卷五',t:'研習測驗',s:'十二題 ・ 名詞疏解 ・ 校勘記 ・ 書目',
+  d:'題目涵蓋名義訓詁、條文理解、邏輯推論與現代轉譯；每題附原文依據與解析。',
+  pts:['<b>附一 名詞疏解</b>：奧・凊・冠禮・期頤・耄・悼・摯・几杖・提攜・拾級聚足・剛日・柔日・不祿・淫祀・儳言・撙節・禮尚往來・質文。','原站卷五共十二題，並附校勘記與書目。']},
+ {id:'p3-1',p:'p3',k:'序章',t:'始入書院',s:'遊戲開場 ・ 本作說明 ・ 設定',
+  d:'內容依據《禮記》選（〈曲禮〉）與「禮之概談」補充講義編撰。點擊對話框或按空白鍵推進劇情。',
+  pts:['主選單：<b>始入書院</b>・<b>續讀前卷</b>・<b>禮典 · 知識</b>・<b>設定</b>・<b>本作說明</b>。','以視覺小說形式，將〈曲禮〉條文化為書院生活中的對話與抉擇。']},
+ {id:'p3-2',p:'p3',k:'進程',t:'續讀前卷',s:'承接前卷內容 ・ 存續進度',
+  d:'自上次中斷處續讀，逐步解鎖「禮典 · 知識」條目。',
+  pts:['遊戲進度與已解鎖之禮典條目可回溯查閱。','配合徑一、徑二之內容，形成「讀 → 辨 → 行」的完整學習迴路。']},
+ {id:'p3-3',p:'p3',k:'知識',t:'禮典 · 知識',s:'遊戲內資料館 ・ 條目式查閱',
+  d:'於遊戲中隨時開啟「禮典 · 知識」，查閱名物、儀節與條文依據。',
+  pts:['可對照徑二「附一 · 名詞疏解」之條目。','知識條目隨劇情推進逐一解鎖，鼓勵反覆修習。']},
+ {id:'p3-4',p:'p3',k:'結業',t:'循禮之士',s:'結業評第 ・ 閱覽禮典 ・ 重新修習',
+  d:'通曉「曲禮」之要後結業，成為「循禮之士」；可「閱覽禮典」或「重新修習」。',
+  pts:['<b>閱覽禮典</b>：回顧遊戲中解鎖之全部知識條目。','<b>重新修習</b>：以不同抉擇重玩，檢驗對三問的掌握。']}
+];
+const AGES=[
+ {a:'七歲',z:'悼',n:'七年曰悼',d:'悼，可憐愛也。年幼可憐，故雖有罪不加刑。',r:'身分：未成童之幼者。義務：受教、受養。豁免：雖有罪，不加刑焉。',t:'與「耄」構成豁免的對稱結構：一為生命之始，一為生命之終，皆以「不能自立」為免除刑責之依據。'},
+ {a:'十歲',z:'幼',n:'十年曰幼，學',d:'始就學，出就外傅，習書計與幼儀。',r:'身分：就學之童子。義務：學。權利：受教之權自此確立。',t:'「命名→賦權→課責」之首環：先課以「學」之義務，而後名分有所附麗。'},
+ {a:'二十歲',z:'弱',n:'二十曰弱，冠',d:'體猶未強，故稱「弱」；然已行冠禮，成人之道備。',r:'身分：成人（丈夫）。義務：為人子、為人弟、為人臣、為人少者之禮皆責備。權利：可冠、可婚、可預祭祀。',t:'辨二「弱而冠」── 權利先於能力：名分一旦授予，義務即隨之而至。'},
+ {a:'三十歲',z:'壯',n:'三十曰壯，有室',d:'氣力已強，可以成家，故曰「有室」。',r:'身分：一家之主。義務：成家、立業、養親、教子。',t:'由「受教者」轉為「施教者」，責任軸線由己身移向家庭。'},
+ {a:'四十歲',z:'強',n:'四十曰強，而仕',d:'智慮定、氣力充，可以出而從政。',r:'身分：士・為人之臣。義務：仕而任事、以道事君。',t:'「強」與二十之「弱」相對：禮之分期實以「可課何種責任」為準。'},
+ {a:'五十歲',z:'艾',n:'五十曰艾，服官政',d:'髮蒼如艾，歷練已深，可任官長而掌政事。',r:'身分：官長。義務：服官政、決斷庶務。',t:'由「仕」而「服官政」，責任由執行轉為決策。'},
+ {a:'六十歲',z:'耆',n:'六十曰耆，指使',d:'耆，至也。年高有德，可以指事使人，不必親勞。',r:'身分：長者・致事之臣。義務：指使、傳授。豁免：不親細務。',t:'「指使」為由勞力轉為勞心的名分轉換，義務未除，形式已變。'},
+ {a:'七十歲',z:'老',n:'七十曰老，而傳',d:'老則致其事，將家業、職守傳付子孫。',r:'身分：家長之退位者。義務：傳（家事、職分、祭祀之權）。',t:'「傳」字最見禮之邏輯：名分可轉移，故祭祀之權、職分之問亦隨之易主。'},
+ {a:'八・九十',z:'耄',n:'八十、九十曰耄',d:'耄，惛忘也。年高識昏，故雖有罪不加刑。',r:'身分：國之老。義務：受養、受敬。豁免：雖有罪，不加刑焉。',t:'與七歲之「悼」對稱呼應，構成年齡序列的循環結構。'},
+ {a:'百歲',z:'期頤',n:'百年曰期、頤',d:'期，要也；頤，養也。百事必待人養要，故曰期頤。',r:'身分：人瑞。義務：無 ── 全由人奉養。',t:'序列之終點即「完全受養」之極致，與起點「悼」同其性質，故循環而非線性。'}
+];
+const SHICHEN=[
+ {z:'子',t:'23–01',d:'一陽初生，宜寢。',x:'居處不淫安，寢不屍。夜半宜息，毋縱欲以傷身 ── 禮亦攝生。'},
+ {z:'丑',t:'01–03',d:'安眠養身。',x:'「敖不可長，欲不可從」：夜氣清明之時，正宜收斂，毋放肆。'},
+ {z:'寅',t:'03–05',d:'將起，整衣冠。',x:'未起之先，先存「儼若思」之心；既起則冠帶必正，容體必肅。'},
+ {z:'卯',t:'05–07',d:'晨省父母。',x:'「昏定而晨省」：晨則省父母之安否。盥漱整容而後進。'},
+ {z:'辰',t:'07–09',d:'朝食，共飯之禮。',x:'「長者先，幼者後」；食毋嗿，毋嚃羹，毋絮羹，毋刺齒，毋歠醢。'},
+ {z:'巳',t:'09–11',d:'受業於師。',x:'「請業則起，請益則起」；從於先生，不越路而與人言。'},
+ {z:'午',t:'11–13',d:'日中，應對進退。',x:'「毋不敬」：無一時一事可不敬。毋側聽，毋噭應，毋淫視，毋怠荒。'},
+ {z:'未',t:'13–15',d:'休沐，處所之禮。',x:'「居不主奧，坐不中席，行不中道，立不中門」── 方位即名分。'},
+ {z:'申',t:'15–17',d:'灑掃應對。',x:'「凡為長者糞之禮，必加帚於箕上，以袂拘而退」。'},
+ {z:'酉',t:'17–19',d:'昏定，告反。',x:'「出必告，反必面，所遊必有常，所習必有業」；昏則為父母安置衾枕。'},
+ {z:'戌',t:'19–21',d:'侍坐，察幾而退。',x:'「侍坐於君子，君子欠伸，撰杖屨，視日蚤莫，侍坐者請出矣」── 禮貴察幾。'},
+ {z:'亥',t:'21–23',d:'將寢，三省。',x:'「安定辭」：一日之言，睡前自檢 ── 是否平和、是否明確、是否有儳言。'}
+];
+const ROLES=[
+ {n:'為人子',items:['出必告，反必面','所遊必有常，所習必有業','冬溫而夏凊，昏定而晨省','父母存，不許友以死，不有私財']},
+ {n:'為少者 · 童子',items:['隅坐而無常位','行則隨後，不與先生專對','見父之執，謂之執友','童子不衣裘裳，不有私財']},
+ {n:'為長者 · 兄',items:['長者與之提攜，則兩手奉長者之手','負劍辟咡詔之，則掩口而對','謀於長者，必操几杖以從']},
+ {n:'為人臣 · 下屬',items:['為人臣之禮，不顯諫','三諫而不聽，則逃之','不自貴而尊人，不以己長病人之短']},
+ {n:'為主人 · 賓客',items:['將上堂，聲必揚','戶外有二屨，言聞則入，言不聞則不入','主人不以客為尊而自屈，客亦敬主']},
+ {n:'為師 · 為弟子',items:['請業則起，請益則起','從於先生，不越路而與人言','先生與之言則對，不與言則趨而退']},
+ {n:'處眾 · 群居',items:['毋側聽，毋噭應，毋淫視，毋怠荒','長者不及，毋儳言','博聞強識而讓，敦善行而不怠']},
+ {n:'臨喪 · 弔祭',items:['臨喪則必有哀色','執紼不笑，臨祭不惰','弔者不至於哀而止，不以華言相悅']},
+ {n:'處事 · 決疑',items:['禮尚往來：往而不來非禮也，來而不往亦非禮也','入境問禁，入國問俗，入門問諱','疑事毋質，直而勿有']}
+];
+const METHODS=[
+ {n:'正名（名實之辨）',d:'先定名分，而後責其實。',e:'「人生十年曰幼，學」── 以「幼」之名，課「學」之實。'},
+ {n:'差等分類',d:'同一行為，因名分不同而異其辭、異其權、異其責。',e:'天子曰崩，諸侯曰薨，大夫曰卒，士曰不祿，庶人曰死。'},
+ {n:'條件句推理',d:'若 A 則 B，逐條檢核前提與結論。',e:'「入境問禁，入國問俗，入門問諱」── 三層條件逐步收斂。'},
+ {n:'對稱與互惠',d:'義務是雙向的，兩端相稱方成其禮。',e:'「禮尚往來：往而不來，非禮也；來而不往，亦非禮也。」'},
+ {n:'下限檢驗（a fortiori）',d:'輕者尚且如此，重者更當如何。',e:'「悼與耄，雖有罪，不加刑焉」── 於最無力者尚不加刑。'},
+ {n:'經權之辨',d:'守常為經，通變為權；合而後不僵化。',e:'「入境問俗」與「不自失其正」並行。'}
+];
+const SCENES=[
+ {t:'週末與朋友相約至深夜，回家時父母已就寢。你認為自己已成年，行蹤不必報備。',
+  o:[{k:'已成年，個人行蹤屬於隱私，不必告知',c:0},{k:'出門前告知去處與預計返家時間，返家後仍讓父母知道已平安歸來',c:1},{k:'只在被詢問時才回答',c:0}],
+  e:'《曲禮》：「為人子之禮……出必告，反必面，所遊必有常，所習必有業。」告與面非關年齡，而在「不使父母憂」之敬。'},
+ {t:'部門會議中，主管提出的方案明顯有重大風險，會中眾人都在場。',
+  o:[{k:'當場直言指責其錯誤，以示負責',c:0},{k:'會後私下陳述風險與數據；若三次進言仍不採納，則調整立場或求去',c:1},{k:'保持沉默，事後再向他人抱怨',c:0}],
+  e:'「為人臣之禮，不顯諫；三諫而不聽，則逃之。」不顯諫、三諫盡責、義合者可去。'},
+ {t:'你到同事辦公室，門半掩，隱約聽到裡面正在談話。',
+  o:[{k:'直接推門進入並出聲招呼',c:0},{k:'先在門外出聲示意，聽見回應或談話可聞則入，否則稍候再敲門',c:1},{k:'站在門外側耳聽完再決定',c:0}],
+  e:'「將上堂，聲必揚；戶外有二屨，言聞則入，言不聞則不入。」又曰「毋側聽」。'},
+ {t:'與朋友聚餐，桌上有一道你最愛吃的菜，你連夾數次，幾乎獨享。',
+  o:[{k:'喜歡就多吃，付費平均分攤即公平',c:0},{k:'顧及同桌之人，不專取所好、不搶先、不獨享',c:1},{k:'先夾一大塊放入自己碗中慢慢吃',c:0}],
+  e:'「共食不飽」、「毋搏飯」；「長者先，幼者後」。共食之禮在「讓」── 自卑而尊人。'},
+ {t:'社群媒體上流傳一則未經證實的消息，與你的立場相符，你想立即轉發。',
+  o:[{k:'立場相符即轉發，真假交由他人判斷',c:0},{k:'先查證來源與專業依據；無法證實者不下斷語，轉發時明確標示不確定性',c:1},{k:'反覆詢問多位同溫層朋友，直到有人支持你的判斷為止',c:0}],
+  e:'「疑事毋質，直而勿有。」又「安定辭」── 言辭平和而論點明確。'},
+ {t:'公司派你到海外分公司支援三個月，當地工作習慣與你慣常方式差異很大。',
+  o:[{k:'依自己慣常方式行事，並設法改變當地作法',c:0},{k:'入境前先查當地法令、習俗與忌諱；到任後隨俗而行，不強求改變對方',c:1},{k:'完全放棄自己原則，一切照當地方式辦理，包括不合專業標準者',c:0}],
+  e:'「入竟而問禁，入國而問俗，入門而問諱。」隨俗為權，守專業與本分為經。'},
+ {t:'與長輩通話時，你一邊低頭滑手機，一邊以「嗯、嗯」高聲隨意應對。',
+  o:[{k:'通話內容重要，其他行為不拘',c:0},{k:'正身專注，語氣安和；不側聽、不高聲呼應、不散漫',c:1},{k:'請對方改傳文字訊息，避免通話',c:0}],
+  e:'「毋噭應，毋淫視，毋怠荒。」「儼若思，安定辭」── 貌與言皆由心生。'}
+];
+const QUIZ=[
+ {t:'「禮」的本字為何？',o:['豐','豊','示','豆'],a:1,e:'禮的本字為「豊」，甲骨文頂部像兩串美玉、底部像有支架的建鼓，合為「擊鼓奏樂」，以美玉敬奉祖先和神靈。'},
+ {t:'「禮」字後來加上「示」部，主要原因為何？',o:['為了與祭祀的「祭」字區分','因為「示」表示祭桌，且「豊」易與「豐」混淆','為了書寫方便而簡化','因為周公制禮作樂時新造'],a:1,e:'因「豊」常被混淆為「豐」，所以在偏旁加上一個「示」字表示祭桌，變成現今的「禮」字。'},
+ {t:'「三禮」之中，敘述周代行政官制和職掌的是哪一部？',o:['《儀禮》','《禮記》','《周禮》','《荀子·禮論》'],a:2,e:'《周禮》敘述周代的行政官制和職掌（政治制度）；《儀禮》記述古代習俗禮儀（禮俗）；《禮記》則為闡釋「禮」的論著（禮的理論）。'},
+ {t:'今本《禮記》即《小戴禮記》，為戴聖所選，共計幾篇？',o:['八十五篇','四十九篇','一百三十一篇','十七篇'],a:1,e:'秦漢間儒者論禮之文凡 131 篇；戴德選 85 篇為《大戴禮記》（亡），戴聖選 49 篇為《小戴禮記》，即今本《禮記》，經鄭玄作注、孔穎達作正義，收於《十三經》。'},
+ {t:'「六禮」之中，男方向女方致送聘禮稱為？',o:['納采','問名','納吉','納徵'],a:3,e:'納徵又稱「納幣」，即男方向女方致送聘禮；納采為提親致采擇之禮，問名為問女方名氏生辰，納吉為卜吉後定婚約。'},
+ {t:'五服制度之中，服制最重的一等是？',o:['緦麻','大功','齊衰','斬衰'],a:3,e:'五服分為斬衰、齊衰、大功、小功、緦麻。斬衰最重，用最粗生麻布製成且不縫邊，服期三年。'},
+ {t:'喪俗「做七」，第四十九天的儀式稱為？',o:['斷七','守靈','報喪','大殮'],a:0,e:'親友每七天去靈堂看望並燒紙錢，共七次四十九天，稱「做七」；第四十九天的儀式稱為「斷七」，為正式葬禮部分的結束。'},
+ {t:'「侍坐於君子，君子欠伸，撰杖屨，視日蚤莫，侍坐者請出矣。」此段意謂？',o:['君子應當早起伸展筋骨','尊長已有倦意，侍坐者應主動告辭退出','侍坐者應幫尊長拿枴杖與鞋子','陪伴長輩時應不斷詢問時間'],a:1,e:'打呵欠、伸懶腰、想找枴杖或鞋子、探問時間早晚，皆示尊長有倦意，侍坐者就該告辭退出 ── 禮貴察幾。'},
+ {t:'「博聞強識而讓」的意思為何？',o:['見聞廣博、記憶力強，且能謙讓不自滿','聽聞很多卻仍能推辭官職','博學之人應當辭讓財貨','多聽多記以便與人辯論'],a:0,e:'識，音ㄓˋ，記憶。見聞廣博記憶力強，且能謙讓不自滿，則所學日益精，此為君子之德。'},
+ {t:'「毋不敬，儼若思，安定辭」所揭示的要旨是？',o:['祭祀之時必須恭敬肅穆','一切行為準則以「敬」為基礎，儀態端莊持重，言辭平和明確','為政者應當安定民心','與人交談要多加思索再開口'],a:1,e:'《曲禮》以「敬」為一切行為準則的基礎：毋不敬、儼若思、安定辭，如此才能使人信服。'}
+];
+const GSCENES=[
+ {n:'旁白',t:'暮色四合，書院鐘聲一響。你整了整衣冠，拾級聚足而上……'},
+ {n:'司儀',t:'「將上堂，聲必揚。」入門之前，先在門外出聲示意，莫使人倉促。'},
+ {n:'你',t:'（拱手）晚生求見，敢問先生在否？'},
+ {n:'先生',t:'「毋不敬，儼若思，安定辭。」── 這三句，便是終身之法。'},
+ {n:'旁白',t:'先生指著案上竹簡：人生十年曰幼，學；二十曰弱，冠；三十曰壯，有室……'},
+ {n:'先生',t:'名分既正，而後義務明；義務既明，而後禮可行於日用之間。'},
+ {n:'司儀',t:'（低聲）侍坐於君子，君子欠伸、撰杖屨、視日蚤莫 ── 你該如何做？'},
+ {n:'你',t:'（起身，拱手）先生倦矣，晚生請出。'},
+ {n:'旁白',t:'──你已通曉「曲禮」之要。可「閱覽禮典」，亦可「重新修習」，是為循禮之士。'}
+];
+const BADGES=[
+ {id:'b1',ic:'卷',n:'啟卷之人',d:'完成任一研習節點',f:s=>s.done.length>=1},
+ {id:'b2',ic:'文',n:'博通文本',d:'徑一八卷全數研讀',f:s=>NODES.filter(x=>x.p==='p1').every(x=>s.done.includes(x.id))},
+ {id:'b3',ic:'辨',n:'三問既明',d:'徑二六節全數研讀',f:s=>NODES.filter(x=>x.p==='p2').every(x=>s.done.includes(x.id))},
+ {id:'b4',ic:'院',n:'書院學子',d:'徑三四節全數研讀',f:s=>NODES.filter(x=>x.p==='p3').every(x=>s.done.includes(x.id))},
+ {id:'b5',ic:'行',n:'知行合一',d:'情境判斷答對五則以上',f:s=>s.scnOk>=5},
+ {id:'b6',ic:'策',n:'對策之高',d:'小試身手得八分以上',f:s=>s.qBest>=8},
+ {id:'b7',ic:'箋',n:'修身有箋',d:'生成個人修身箋',f:s=>s.jian},
+ {id:'b8',ic:'遊',n:'風雅敘事',d:'完成遊戲演示',f:s=>s.game},
+ {id:'b9',ic:'士',n:'循禮之士',d:'十八節點全數研讀',f:s=>s.done.length>=NODES.length}
+];
+
+/* ============ 狀態 ============ */
+const KEY='liji_map_v3';
+let S={done:[],qBest:0,qScore:0,scnOk:0,jian:false,game:false};
+function load(){try{const r=localStorage.getItem(KEY)||localStorage.getItem('liji_map_v2')||localStorage.getItem('liji_map_v1');if(r)S=Object.assign(S,JSON.parse(r));}catch(e){}}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}}
+load();
+
+/* ============ 地圖 ============ */
+function buildMap(){
+  const svg=document.getElementById('mapsvg'),X0=96,X1=1104,laneY={p1:170,p2:380,p3:590};
+  let out='<defs>';
+  out+='<linearGradient id="ln1" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#9c2b23" stop-opacity=".15"/><stop offset=".5" stop-color="#9c2b23" stop-opacity=".75"/><stop offset="1" stop-color="#9c2b23" stop-opacity=".15"/></linearGradient>';
+  out+='<linearGradient id="ln2" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#2b5f6b" stop-opacity=".15"/><stop offset=".5" stop-color="#2b5f6b" stop-opacity=".75"/><stop offset="1" stop-color="#2b5f6b" stop-opacity=".15"/></linearGradient>';
+  out+='<linearGradient id="ln3" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#6d5580" stop-opacity=".15"/><stop offset=".5" stop-color="#6d5580" stop-opacity=".75"/><stop offset="1" stop-color="#6d5580" stop-opacity=".15"/></linearGradient></defs>';
+  out+='<rect x="14" y="14" width="1172" height="632" rx="12" fill="none" stroke="rgba(176,137,63,.35)" stroke-dasharray="5 6"/>';
+  out+='<text x="34" y="46" font-size="19" font-weight="900" letter-spacing="8" fill="#b0893f" opacity=".75">禮 記 選 · 學 習 地 圖</text>';
+  out+='<text x="34" y="70" font-size="12" letter-spacing="3" fill="#8a7c68">點 選 節 點 → 展 卷 研 讀 → 開 啟 原 站</text>';
+  Object.keys(PATHS).forEach(pk=>{
+    const P=PATHS[pk],y=laneY[pk],list=NODES.filter(n=>n.p===pk);
+    out+='<line x1="60" y1="'+y+'" x2="1140" y2="'+y+'" stroke="url(#ln'+pk.charAt(1)+')" stroke-width="3" stroke-linecap="round"/>';
+    out+='<g class="lane" data-p="'+pk+'">';
+    out+='<text class="lane-label" x="46" y="'+(y-42)+'" font-size="17" fill="'+P.color+'">'+P.short+'</text>';
+    out+='<text x="46" y="'+(y-22)+'" font-size="11.5" fill="#8a7c68" letter-spacing="1">'+list.length+' 節點</text>';
+    list.forEach((n,i)=>{
+      const x=X0+i*((X1-X0)/(list.length-1)),done=S.done.includes(n.id);
+      out+='<g class="map-node" data-id="'+n.id+'" data-p="'+pk+'" tabindex="0" role="button" aria-label="'+n.k+' '+n.t+'">';
+      out+='<circle class="hit" cx="'+x+'" cy="'+y+'" r="34"/>';
+      out+='<circle class="disc" cx="'+x+'" cy="'+y+'" r="19" fill="'+(done?'#b0893f':P.color)+'" stroke="#fffdf6" stroke-width="3"/>';
+      out+='<text class="ntxt" x="'+x+'" y="'+(y+1)+'">'+(done?'✓':(i+1))+'</text>';
+      out+='<text class="nlbl" x="'+x+'" y="'+(y+46)+'">'+n.k+' · '+n.t+'</text></g>';
+    });
+    out+='</g>';
+  });
+  const l1=NODES.filter(n=>n.p==='p1').length,l2=NODES.filter(n=>n.p==='p2').length;
+  const xE1=X0+(l1-1)*((X1-X0)/(l1-1)),xE2=X0+(l2-1)*((X1-X0)/(l2-1));
+  out+='<path d="M'+xE1+' '+laneY.p1+' C '+xE1+' '+(laneY.p1+70)+', '+X0+' '+(laneY.p2-70)+', '+X0+' '+laneY.p2+'" fill="none" stroke="rgba(176,137,63,.5)" stroke-width="2" stroke-dasharray="6 7"/>';
+  out+='<path d="M'+xE2+' '+laneY.p2+' C '+xE2+' '+(laneY.p2+70)+', '+X0+' '+(laneY.p3-70)+', '+X0+' '+laneY.p3+'" fill="none" stroke="rgba(176,137,63,.5)" stroke-width="2" stroke-dasharray="6 7"/>';
+  out+='<text x="'+((xE1+X0)/2)+'" y="'+((laneY.p1+laneY.p2)/2+6)+'" font-size="12" fill="#b0893f" text-anchor="middle" letter-spacing="2">讀而後辨</text>';
+  out+='<text x="'+((xE2+X0)/2)+'" y="'+((laneY.p2+laneY.p3)/2+6)+'" font-size="12" fill="#b0893f" text-anchor="middle" letter-spacing="2">辨而後行</text>';
+  svg.innerHTML=out;
+  const tip=document.getElementById('mapTip'),box=svg.parentElement;
+  svg.querySelectorAll('.map-node').forEach(g=>{
+    const n=NODES.find(x=>x.id===g.dataset.id);
+    const show=()=>{const r=g.getBoundingClientRect(),br=box.getBoundingClientRect();
+      tip.innerHTML='<b>'+n.k+' · '+n.t+'</b>　'+n.s;
+      tip.style.left=(r.left-br.left+r.width/2)+'px';tip.style.top=(r.top-br.top)+'px';tip.classList.add('show');};
+    const hide=()=>tip.classList.remove('show');
+    g.addEventListener('mouseenter',show);g.addEventListener('mouseleave',hide);
+    g.addEventListener('click',()=>{hide();openNode(n.id);});
+    g.addEventListener('keydown',ev=>{if(ev.key==='Enter'||ev.key===' '){ev.preventDefault();hide();openNode(n.id);}});
+  });
+  document.getElementById('nodeTotal').textContent=NODES.length;
+}
+function paintMap(){
+  document.querySelectorAll('.map-node').forEach(g=>{
+    const n=NODES.find(x=>x.id===g.dataset.id),done=S.done.includes(n.id);
+    g.querySelector('.disc').setAttribute('fill',done?'#b0893f':PATHS[n.p].color);
+    g.querySelector('.ntxt').textContent=done?'✓':(NODES.filter(x=>x.p===n.p).indexOf(n)+1);
+  });
+}
+function linkRow(u,name){
+  return '<div class="urlbox"><b>原站網址（可點選全選 → Ctrl+C 複製）</b>'+u+'</div>'+
+   '<input class="urlin" readonly value="'+u+'" style="background:#12100e;color:#f0e4c8">'+
+   '<div class="lkg" style="margin-top:10px">'+
+     '<a class="btn solid" href="'+u+'" target="_blank" rel="noopener noreferrer">🔗 新分頁開啟</a>'+
+     '<a class="btn dark" href="'+u+'" rel="noopener noreferrer">➜ 本視窗開啟</a>'+
+     '<a class="btn" href="'+u+'" target="_top" rel="noopener noreferrer">⤒ 最上層開啟</a>'+
+     '<button class="btn gold" type="button" data-auto="'+u+'" data-name="'+esc(name)+'">⚙ 自動嘗試</button>'+
+     '<button class="btn ghost" type="button" data-copy="'+u+'">📋 複製網址</button>'+
+   '</div>';
+}
+function openNode(id){
+  const n=NODES.find(x=>x.id===id);if(!n)return;
+  const P=PATHS[n.p],done=S.done.includes(id);
+  document.getElementById('mK').textContent=P.name+' ／ '+n.k;
+  document.getElementById('mT').textContent=n.t+' · '+n.s;
+  document.getElementById('mB').innerHTML=
+    '<p style="font-size:.98rem;color:var(--ink2)">'+n.d+'</p>'+
+    '<h4 style="font-size:.95rem;letter-spacing:.14em;color:var(--cinnabar);margin:16px 0 8px">要 點</h4>'+
+    '<ul class="dots">'+n.pts.map(p=>'<li>'+p+'</li>').join('')+'</ul>'+
+    '<h4 style="font-size:.95rem;letter-spacing:.14em;color:var(--cinnabar);margin:18px 0 4px">前 往 原 站</h4>'+
+    linkRow(P.url,P.name+' · '+n.k+' '+n.t)+
+    '<div class="lkg" style="margin-top:16px"><button class="btn '+(done?'':'solid')+'" id="mDone" type="button">'+(done?'✓ 已研讀':'標為已研讀')+'</button>'+
+    '<button class="btn ghost" id="mClose" type="button">閉 卷</button></div>';
+  document.getElementById('mask').classList.add('show');
+  document.getElementById('mDone').onclick=()=>{toggleDone(id);document.getElementById('mask').classList.remove('show');};
+  document.getElementById('mClose').onclick=()=>document.getElementById('mask').classList.remove('show');
+}
+document.getElementById('mx').onclick=()=>document.getElementById('mask').classList.remove('show');
+document.getElementById('mask').addEventListener('click',e=>{if(e.target.id==='mask')e.currentTarget.classList.remove('show');});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){document.getElementById('mask').classList.remove('show');document.getElementById('linkMask').classList.remove('show');}});
+
+/* ============ 手風琴 ============ */
+function etyHTML(){
+  return '<div class="ety">'+
+   '<figure style="margin:0;text-align:center">'+
+   '<svg width="112" height="132" viewBox="0 0 112 132" aria-label="甲骨文豊示意"><g stroke="#7a5a1c" fill="none" stroke-width="2.4" stroke-linecap="round">'+
+   '<line x1="30" y1="12" x2="30" y2="52"/><line x1="82" y1="12" x2="82" y2="52"/>'+
+   '<circle cx="30" cy="20" r="6" fill="#d9b56a"/><circle cx="30" cy="36" r="6" fill="#d9b56a"/><circle cx="30" cy="52" r="6" fill="#d9b56a"/>'+
+   '<circle cx="82" cy="20" r="6" fill="#d9b56a"/><circle cx="82" cy="36" r="6" fill="#d9b56a"/><circle cx="82" cy="52" r="6" fill="#d9b56a"/>'+
+   '<line x1="18" y1="66" x2="94" y2="66"/><ellipse cx="56" cy="86" rx="26" ry="15" fill="#f2e2bd"/>'+
+   '<line x1="34" y1="86" x2="26" y2="112"/><line x1="78" y1="86" x2="86" y2="112"/><line x1="20" y1="116" x2="92" y2="116"/></g></svg>'+
+   '<figcaption>甲骨文「豊」示意<br>兩串美玉 ＋ 有支架的建鼓</figcaption></figure>'+
+   '<div class="zi gold">豊</div><div class="op arrow">→</div>'+
+   '<div style="text-align:center"><div class="zi">示</div><figcaption>祭桌 · 部首</figcaption></div>'+
+   '<div class="op arrow">＝</div>'+
+   '<div style="text-align:center"><div class="zi" style="background:linear-gradient(150deg,#9c2b23,#7d2019);color:#fdf3e6;border-color:#7d2019">禮</div><figcaption>今字</figcaption></div></div>'+
+  '<div class="kv"><div><b>食器</b>象徵基本的物質寄託</div><div><b>祭器</b>象徵誠敬的精神寄託</div><div><b>融匯</b>恰與「民以食為天」相吻合</div></div>';
+}
+const LIU=[['納采','六禮之始。男方遣媒人至女家提親，並致送采擇之禮，表示求婚之意。'],['問名','男方請媒人問女方之名字與生辰，以歸於宗廟占卜吉凶。'],['納吉','卜得吉兆之後，備禮告知女家，婚約於是確定，俗稱「訂婚」（又稱過文定）。'],['納徵','又稱「納幣」。男方向女方致送聘禮，為成婚前的正式手續，聘書、禮書即用於此階段。'],['請期','男方擇定婚期，備禮告知女家，並徵求同意（古禮謙辭曰「請期」，實為告期）。'],['親迎','六禮之成。新郎親赴女家迎娶新娘，奉以歸，行合卺之禮。']];
+const CN=['一','二','三','四','五','六','七'];
+function sixHTML(){
+  return '<h4>三書六禮 · 點擊卡片翻轉查看釋義</h4>'+
+  '<div class="kv"><div><b>聘書</b>訂親之書，於「納吉」時致送女家</div><div><b>禮書</b>過禮之書，於「納徵」時用，列明禮品數目</div><div><b>迎書</b>迎娶之書，於「親迎」接新娘時用</div></div>'+
+  '<div class="flips">'+LIU.map((x,i)=>'<div class="flip" data-flip><div class="in"><div class="f"><small>六禮 · 第'+CN[i]+'禮</small><b>'+x[0]+'</b><i>點擊翻轉 ▸ 釋義</i></div><div class="b"><b>'+x[0]+'</b>'+x[1]+'</div></div></div>').join('')+'</div>'+
+  '<p class="note">※ 六禮釋義為補充說明，便於理解程序之意。</p>';
+}
+const FU=[['小殮','為亡者沐浴、更衣、整容，覆以衾被，安置於堂。此時尚未入棺，故稱「小殮」。'],['報喪','遣人訃告親友，告知亡故之期與治喪之所。'],['奔喪','親友聞喪而至，自遠方趕赴喪所，故曰「奔」。'],['停靈','靈柩停置於堂，設位受弔。'],['守靈','孝子與親屬輪番守於靈旁，不離左右。'],['大殮','納屍於棺，封釘成殮，自此入棺不復出。'],['出殯和下葬','發引送葬，窆於墓穴，喪禮之大成。']];
+function funeralHTML(){
+  return '<h4>喪禮流程 · 點擊步驟查看說明</h4><div class="flips" style="grid-template-columns:repeat(auto-fit,minmax(130px,1fr))">'+
+  FU.map((x,i)=>'<div class="flip" data-flip style="height:150px"><div class="in"><div class="f" style="background:linear-gradient(160deg,#3f4a52,#2c343a)"><small>第'+CN[i]+'步</small><b>'+x[0]+'</b><i>點擊翻轉 ▸</i></div><div class="b"><b>'+x[0]+'</b>'+x[1]+'</div></div></div>').join('')+'</div>'+
+  '<div class="kv" style="margin-top:14px"><div><b>做七</b>每七天至靈堂燒紙錢，共七次四十九天；第四十九天稱「斷七」</div><div><b>守孝</b>實際服孝三期，每期九個月，共 27 個月</div><div><b>現代社會</b>家中有喪事，第一年春節不去各家拜年</div></div>';
+}
+function wufuHTML(){
+  return '<h4>喪服與「五服」制度</h4><p style="font-size:.9rem;color:var(--ink2)">中國古代喪服自周代已用素服，均取白色；按服喪重輕、做工粗細、周期長短分為五等。</p>'+
+  '<table><thead><tr><th>等第</th><th>服期</th><th>材質做工</th><th>適用</th></tr></thead><tbody>'+
+  '<tr><td>斬衰（最重）</td><td>三年</td><td>最粗生麻布製成，不縫邊（斬者，不緝也）</td><td>子為父、妻為夫、諸侯為天子</td></tr>'+
+  '<tr><td>齊衰</td><td>一年至三月不等</td><td>粗麻布製成，縫邊整齊（齊者，緝也）</td><td>為祖父母、母、夫為妻等</td></tr>'+
+  '<tr><td>大功</td><td>九月</td><td>熟麻布製成，做工較粗</td><td>為堂兄弟姊妹、已嫁之姑姊妹等</td></tr>'+
+  '<tr><td>小功</td><td>五月</td><td>較細之熟麻布製成</td><td>為曾祖父母、堂伯叔父母等</td></tr>'+
+  '<tr><td>緦麻（最輕）</td><td>三月</td><td>最細之麻布製成</td><td>為族曾祖父母、表兄弟姊妹等</td></tr></tbody></table>';
+}
+const WULI=[['吉','吉禮','祭祀之禮'],['凶','凶禮','哀弔之禮'],['賓','賓禮','國際禮節'],['軍','軍禮','軍中禮儀'],['嘉','嘉禮','專指婚禮']];
+function wuliHTML(){
+  return '<h4>五禮 · 點擊查看</h4><div class="flips" style="grid-template-columns:repeat(auto-fit,minmax(120px,1fr))">'+
+  WULI.map(x=>'<div class="flip" data-flip style="height:150px"><div class="in"><div class="f" style="background:linear-gradient(160deg,#2b5f6b,#1e444d)"><small>五禮</small><b style="font-size:2.2rem">'+x[0]+'</b><i>'+x[1]+' ▸</i></div><div class="b"><b>'+x[1]+'</b>'+x[2]+'</div></div></div>').join('')+'</div>'+
+  '<div class="quotebox" style="margin-top:14px">「曲」者，委曲詳盡之意 ── 於吉、凶、賓、軍、嘉五禮之事，一一明其曲折細微，故稱〈曲禮〉。</div>';
+}
+const SIXT=[['其一','毋不敬章','待人接物的原則、一切行為的準則。'],['其二','人生百年章','人生百年當中，各成長階段遵從禮制。'],['其三','為人子章','為人子如何孝敬父母與尊事長者。'],['其四','侍坐於先生章','回答老師問題及向老師請教時的規矩。'],['其五','侍坐於君子章','侍坐於君子面前時的規矩，生活禮儀。'],['其六','君子章','君子所應具的品德要求，進德修業。']];
+function sixTextsHTML(){
+  return '<h4>課文選讀 · 六則</h4><div class="kv">'+SIXT.map(x=>'<div><b>'+x[0]+' · '+x[1]+'</b>'+x[2]+'</div>').join('')+'</div>'+
+  '<p class="note">原站中可於左側選擇章節，並點擊原文中虛線標示之字詞，對照下方注釋。</p>';
+}
+function extraHTML(n){
+  if(n.id==='p1-2')return etyHTML();
+  if(n.id==='p1-5')return sixHTML()+funeralHTML()+wufuHTML();
+  if(n.id==='p1-6')return wuliHTML()+sixTextsHTML();
+  if(n.id==='p2-1')return '<div class="note">▸ 詳讀請見下方「一之一 · 十段年齡軸」互動元件。</div>';
+  if(n.id==='p2-2')return '<div class="note">▸ 詳讀請見下方「二之二 · 身分準則檢核表 → 修身箋」互動元件。</div>';
+  if(n.id==='p2-3')return '<div class="note">▸ 詳讀請見下方「十二時辰軸」與「七則情境判斷」互動元件。</div>';
+  if(n.id==='p2-4')return '<div class="note">▸ 詳讀請見下方「思辨方法工具箱（六法）」。</div>';
+  if(n.id==='p1-8')return '<div class="note">▸ 十題已收錄於本頁「練習場」，可直接作答並查看答案解析。</div>';
+  if(n.id==='p3-1'||n.id==='p3-4')return '<div class="note">▸ 下方設有「書院一幕」試玩演示，可先體驗敘事節奏。</div>';
+  return '';
+}
+function buildAcc(cid,pk){
+  const el=document.getElementById(cid),list=NODES.filter(n=>n.p===pk);
+  el.innerHTML=list.map(n=>{
+    const done=S.done.includes(n.id);
+    return '<div class="acc-item rv '+(done?'done':'')+'" data-node="'+n.id+'" style="--acc:'+PATHS[pk].color+'">'+
+      '<button class="acc-head" type="button"><span class="acc-num">'+n.k+'</span>'+
+      '<span class="acc-title"><b>'+n.t+'</b><span>'+n.s+'</span></span>'+
+      '<span class="chk">✓</span><span class="chev"></span></button>'+
+      '<div class="acc-body"><div class="acc-inner"><div class="acc-pad">'+
+        '<p style="color:var(--ink2);font-size:.96rem">'+n.d+'</p>'+
+        '<ul class="dots">'+n.pts.map(p=>'<li>'+p+'</li>').join('')+'</ul>'+extraHTML(n)+
+        '<div class="lkg" style="margin-top:16px"><button class="mark '+(done?'on':'')+'" data-toggle="'+n.id+'" type="button">'+(done?'✓ 已研讀':'○ 標為已研讀')+'</button></div>'+
+        '<h4>前 往 原 站</h4>'+linkRow(PATHS[pk].url,PATHS[pk].name+' · '+n.k+' '+n.t)+
+      '</div></div></div></div>';
+  }).join('');
+  el.querySelectorAll('.acc-head').forEach(h=>h.addEventListener('click',()=>{
+    const it=h.closest('.acc-item');it.classList.toggle('open');
+    if(it.classList.contains('open'))setTimeout(()=>initExtras(it),60);
+  }));
+  el.querySelectorAll('[data-toggle]').forEach(b=>b.addEventListener('click',ev=>{ev.stopPropagation();toggleDone(b.dataset.toggle);}));
+  observeReveal();
+}
+function initExtras(scope){scope.querySelectorAll('[data-flip]').forEach(f=>{if(f._b)return;f._b=1;f.addEventListener('click',()=>f.classList.toggle('on'));});}
+
+/* ============ 互動元件 ============ */
+function buildTL(){
+  const tl=document.getElementById('tl');
+  tl.innerHTML=AGES.map((a,i)=>'<div class="tl-node" data-i="'+i+'"><div class="age">'+a.a+'</div><div class="ball">'+a.z+'</div><div class="nm">'+a.n.replace(/^.*曰/,'')+'</div></div>').join('');
+  tl.querySelectorAll('.tl-node').forEach(n=>n.addEventListener('click',()=>{tl.querySelectorAll('.tl-node').forEach(x=>x.classList.remove('act'));n.classList.add('act');showAge(+n.dataset.i);}));
+  showAge(0);tl.querySelector('.tl-node').classList.add('act');
+}
+function showAge(i){
+  const a=AGES[i];
+  document.getElementById('tlDetail').innerHTML='<h4>'+a.n+'　<span style="font-size:.85rem;color:var(--muted);font-weight:400">（'+a.a+'）</span></h4>'+
+   '<p style="margin:0 0 8px;font-size:.94rem;color:var(--ink2)">'+a.d+'</p>'+
+   '<div class="kv" style="margin:8px 0"><div><b>名分與義務</b>'+a.r+'</div></div><div class="src">'+a.t+'</div>';
+}
+function buildSC(){
+  const el=document.getElementById('shichen');
+  el.innerHTML=SHICHEN.map((s,i)=>'<div class="sc" data-i="'+i+'"><b>'+s.z+'</b><small>'+s.t+'</small></div>').join('');
+  el.querySelectorAll('.sc').forEach(c=>c.addEventListener('click',()=>{
+    el.querySelectorAll('.sc').forEach(x=>x.classList.remove('act'));c.classList.add('act');
+    const s=SHICHEN[+c.dataset.i];
+    document.getElementById('scDetail').innerHTML='<h4 style="color:var(--violet)">'+s.z+'時 · '+s.t+'　'+s.d+'</h4><p style="margin:0;font-size:.93rem;color:var(--ink2)">'+s.x+'</p>';
+  }));
+  el.querySelector('.sc').click();
+}
+function buildRoles(){
+  const el=document.getElementById('roles');
+  el.innerHTML=ROLES.map((r,ri)=>'<div class="role" data-r="'+ri+'"><h5 data-sel="'+ri+'"><span class="box">✓</span>'+r.n+'</h5><ul>'+
+   r.items.map((it,ii)=>'<li data-item="'+ri+'-'+ii+'">'+it+'</li>').join('')+'</ul></div>').join('');
+  el.querySelectorAll('[data-sel]').forEach(h=>h.addEventListener('click',()=>h.parentElement.classList.toggle('sel')));
+  el.querySelectorAll('[data-item]').forEach(li=>li.addEventListener('click',()=>li.classList.toggle('ck')));
+}
+function buildMethods(){
+  document.getElementById('methods').innerHTML=METHODS.map((m,i)=>'<div class="card" style="background:#fdfaf2"><h4 style="color:var(--teal);font-size:.98rem">法'+CN[i]+' · '+m.n+'</h4><p style="font-size:.88rem">'+m.d+'</p><p style="font-size:.84rem;color:var(--muted);border-left:2px solid var(--gold-l);padding-left:10px;margin-top:8px">'+m.e+'</p></div>').join('');
+}
+function shuffle(a){const r=a.slice();for(let i=r.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[r[i],r[j]]=[r[j],r[i]];}return r;}
+function buildScn(){
+  const el=document.getElementById('scnList');
+  el.innerHTML=SCENES.map((s,i)=>{
+    const opts=shuffle(s.o.map(o=>({k:o.k,c:o.c})));
+    return '<div class="scn" data-s="'+i+'"><div class="q"><b>情境'+(i+1)+'</b>'+s.t+'</div>'+
+    opts.map((o,k)=>'<button class="opt" type="button" data-k="'+k+'" data-c="'+o.c+'">'+String.fromCharCode(65+k)+'．'+o.k+'</button>').join('')+
+    '<div class="fbwrap"></div></div>';
+  }).join('');
+  el.querySelectorAll('.scn').forEach(sc=>{
+    sc.querySelectorAll('.opt').forEach(b=>b.addEventListener('click',()=>{
+      if(sc.dataset.done)return;sc.dataset.done='1';
+      const right=b.dataset.c==='1';
+      sc.querySelectorAll('.opt').forEach(x=>{x.classList.add('dis');if(x.dataset.c==='1')x.classList.add('right');});
+      if(!right)b.classList.add('wrong');
+      sc.querySelector('.fbwrap').innerHTML='<div class="fb"><b>'+(right?'✓ 合於禮 ── ':'✗ 未合 ── ')+'</b>'+SCENES[+sc.dataset.s].e+'</div>';
+      S.scnOk=countRight();save();refreshStats();
+    }));
+  });
+  document.getElementById('scnOk').textContent=countRight();
+}
+function countRight(){let ok=0;document.querySelectorAll('.scn[data-done="1"]').forEach(sc=>{if(!sc.querySelector('.wrong'))ok++;});return ok;}
+function buildQuiz(){
+  const el=document.getElementById('quiz');
+  el.innerHTML=QUIZ.map((q,i)=>'<div class="qq" data-q="'+i+'"><div class="t"><em>第'+(i+1)+'題</em>'+q.t+'</div>'+
+   q.o.map((o,k)=>'<button class="opt" type="button" data-k="'+k+'">'+['甲','乙','丙','丁'][k]+'　'+o+'</button>').join('')+
+   '<div class="ex"><b>詳解 ·</b> '+q.e+'</div></div>').join('');
+  el.querySelectorAll('.qq').forEach(qq=>{
+    qq.querySelectorAll('.opt').forEach(b=>b.addEventListener('click',()=>{
+      if(qq.classList.contains('graded'))return;
+      qq.querySelectorAll('.opt').forEach(x=>{x.style.background='#fdfaf2';x.classList.remove('right','wrong');});
+      b.style.background='#f3ecd9';qq.dataset.pick=b.dataset.k;
+    }));
+  });
+}
+function gradeQuiz(){
+  let sc=0;
+  document.querySelectorAll('.qq').forEach(qq=>{
+    const i=+qq.dataset.q,pick=qq.dataset.pick;
+    qq.classList.add('graded');
+    qq.querySelectorAll('.opt').forEach(o=>{o.classList.add('dis');o.classList.remove('right','wrong');});
+    if(pick===undefined){qq.querySelectorAll('.opt')[QUIZ[i].a].classList.add('right');return;}
+    if(+pick===QUIZ[i].a){sc++;qq.querySelectorAll('.opt')[QUIZ[i].a].classList.add('right');}
+    else{qq.querySelectorAll('.opt')[+pick].classList.add('wrong');qq.querySelectorAll('.opt')[QUIZ[i].a].classList.add('right');}
+  });
+  S.qScore=sc;S.qBest=Math.max(S.qBest,sc);save();
+  document.getElementById('qScore').textContent=sc;
+  document.getElementById('qMsg').textContent= sc>=9?'優等 ── 已得〈曲禮〉之要，可謂循禮之士。':sc>=7?'上等 ── 條文與義理皆已通曉。':sc>=5?'中等 ── 大綱已明，宜重讀卷壹至卷伍之儀制。':'尚須修習 ── 建議自「徑一 · 釋禮、字源」重新展卷。';
+  refreshStats();toast('交卷完成：'+sc+' / 10 分');
+}
+function resetQuiz(){
+  document.querySelectorAll('.qq').forEach(qq=>{
+    qq.classList.remove('graded');delete qq.dataset.pick;
+    qq.querySelectorAll('.opt').forEach(o=>{o.classList.remove('dis','right','wrong');o.style.background='';});
+  });
+  document.getElementById('qScore').textContent='0';
+  document.getElementById('qMsg').textContent='尚未交卷 ── 作答完畢請按「交卷批改」。';
+}
+function makeJian(){
+  const sel=[...document.querySelectorAll('.role')].filter(r=>r.classList.contains('sel')),d=new Date();
+  let txt='　　修 身 箋\n　　依《禮記 · 曲禮》身分準則而立 · '+d.getFullYear()+' 年 '+(d.getMonth()+1)+' 月 '+d.getDate()+' 日\n\n　　「毋不敬，儼若思，安定辭，安民哉！」\n\n';
+  if(!sel.length)txt+='　　（尚未擇定身分。請於上方點選身分標題以納入，並勾選本週已踐行之準則。）\n';
+  else sel.forEach(r=>{
+    const R=ROLES[+r.dataset.r];
+    const dn=[...r.querySelectorAll('li.ck')].map(l=>l.textContent.trim());
+    const td=[...r.querySelectorAll('li:not(.ck)')].map(l=>l.textContent.trim());
+    txt+='　◆ '+R.n+'\n';
+    if(dn.length)txt+='　　已踐：'+dn.map(x=>'「'+x+'」').join('；')+'。\n';
+    if(td.length)txt+='　　自警（未踐之條）：'+td.map(x=>'「'+x+'」').join('；')+'。\n';
+    txt+='\n';
+  });
+  txt+='　　日課：晨省昏定 · 出告反面 · 請業則起 · 疑事毋質 · 禮尚往來\n　　謹識。\n';
+  document.getElementById('jianText').textContent=txt;
+  document.getElementById('jian').style.display='block';
+  S.jian=true;save();refreshStats();toast('修身箋已生成');
+}
+
+/* ============ 遊戲演示 ============ */
+let gIdx=0,gTimer=null,gTyping=false,gFull='';
+function gRender(){
+  const s=GSCENES[gIdx];
+  document.getElementById('gName').textContent=s.n;
+  document.getElementById('gCount').textContent=(gIdx+1)+' / '+GSCENES.length;
+  const el=document.getElementById('gText');gFull=s.t;el.textContent='';gTyping=true;
+  let i=0;clearInterval(gTimer);
+  gTimer=setInterval(()=>{el.textContent=gFull.slice(0,++i);if(i>=gFull.length){clearInterval(gTimer);gTyping=false;}},38);
+}
+function gAdvance(){
+  if(gTyping){clearInterval(gTimer);document.getElementById('gText').textContent=gFull;gTyping=false;return;}
+  if(gIdx<GSCENES.length-1){gIdx++;gRender();}
+  else{if(!S.game){S.game=true;save();refreshStats();toast('結業：你已成為「循禮之士」');}else toast('演示已終 ── 可「重新修習」');}
+}
+document.getElementById('gBox').addEventListener('click',gAdvance);
+document.getElementById('gStart').addEventListener('click',()=>{gIdx=0;gRender();});
+document.addEventListener('keydown',e=>{
+  if(e.code==='Space'&&!document.getElementById('linkMask').classList.contains('show')&&document.activeElement.tagName!=='INPUT'){
+    const g=document.getElementById('game'),r=g.getBoundingClientRect();
+    if(r.top<window.innerHeight&&r.bottom>0){e.preventDefault();gAdvance();}
+  }
+});
+
+/* ============ 進度 / 成就 ============ */
+function toggleDone(id){
+  const i=S.done.indexOf(id);
+  if(i>=0){S.done.splice(i,1);toast('已取消標記');}
+  else{S.done.push(id);const n=NODES.find(x=>x.id===id);toast('已研讀 · '+n.k+' '+n.t);}
+  save();paintMap();refreshStats();syncMarks();
+}
+function syncMarks(){
+  document.querySelectorAll('[data-toggle]').forEach(b=>{
+    const on=S.done.includes(b.dataset.toggle);
+    b.classList.toggle('on',on);b.textContent=on?'✓ 已研讀':'○ 標為已研讀';
+    b.closest('.acc-item').classList.toggle('done',on);
+  });
+}
+function refreshStats(){
+  const total=NODES.length,pct=Math.round(S.done.length/total*100);
+  document.getElementById('ringPct').textContent=pct+'%';
+  document.getElementById('ringFg').style.strokeDashoffset=(358-358*pct/100);
+  let got=0;
+  document.getElementById('badgeWall').innerHTML=BADGES.map(b=>{
+    const ok=b.f(S);if(ok)got++;
+    return '<div class="badge rv in '+(ok?'got':'')+'"><div class="ic">'+b.ic+'</div><b>'+b.n+'</b><span>'+b.d+'</span></div>';
+  }).join('');
+  document.getElementById('badgeCount').textContent=got+' / '+BADGES.length;
+  const c=pk=>NODES.filter(n=>n.p===pk&&S.done.includes(n.id)).length;
+  document.getElementById('stats').innerHTML=
+   '<div><b>節點研讀</b>'+S.done.length+' / '+total+'（'+pct+'%）</div>'+
+   '<div><b>徑一 文本選讀</b>'+c('p1')+' / 8 卷</div>'+
+   '<div><b>徑二 邏輯思辨</b>'+c('p2')+' / 6 節</div>'+
+   '<div><b>徑三 風雅敘事</b>'+c('p3')+' / 4 節</div>'+
+   '<div><b>情境判斷</b>'+S.scnOk+' / 7 則</div>'+
+   '<div><b>小試身手最高分</b>'+S.qBest+' / 10 分</div>'+
+   '<div><b>修身箋</b>'+(S.jian?'已生成':'未生成')+'</div>'+
+   '<div><b>成就</b>'+got+' / '+BADGES.length+'</div>';
+  document.getElementById('scnOk').textContent=S.scnOk;
+}
+/* ============ 控制項 ============ */
+let curFilter='p1';
+document.querySelectorAll('.map-tools .tbtn[data-f]').forEach(b=>{
+  b.addEventListener('click',()=>{
+    document.querySelectorAll('.map-tools .tbtn[data-f]').forEach(x=>x.classList.remove('act'));
+    b.classList.add('act');
+    const f=b.dataset.f;if(f!=='all')curFilter=f;
+    document.querySelectorAll('.map-node').forEach(g=>g.classList.toggle('dim',f!=='all'&&g.dataset.p!==f));
+    document.querySelectorAll('#mapsvg .lane').forEach(l=>l.style.opacity=(f==='all'||l.dataset.p===f)?1:.15);
+  });
+});
+document.getElementById('btnExpand').addEventListener('click',()=>{
+  const sec=document.getElementById({p1:'acc1',p2:'acc2',p3:'acc3'}[curFilter]);
+  const items=sec.querySelectorAll('.acc-item');
+  const anyOpen=[...items].some(i=>i.classList.contains('open'));
+  items.forEach(i=>{i.classList.toggle('open',!anyOpen);if(!anyOpen)initExtras(i);});
+  toast((anyOpen?'已收合':'已展開')+'：'+PATHS[curFilter].name);
+});
+document.getElementById('btnReset').addEventListener('click',()=>{
+  if(!confirm('確定重置全部研習進度、成就與測驗紀錄？'))return;
+  S={done:[],qBest:0,qScore:0,scnOk:0,jian:false,game:false};save();
+  buildScn();buildRoles();resetQuiz();paintMap();syncMarks();refreshStats();
+  document.getElementById('jian').style.display='none';toast('進度已重置');
+});
+document.getElementById('mkJian').addEventListener('click',makeJian);
+document.getElementById('copyJian').addEventListener('click',()=>{
+  const t=document.getElementById('jianText').textContent;
+  if(!t){toast('請先生成修身箋');return;}
+  copyText(t,'已複製修身箋');
+});
+document.getElementById('clearRoles').addEventListener('click',()=>{
+  document.querySelectorAll('.role').forEach(r=>{r.classList.remove('sel');r.querySelectorAll('li').forEach(l=>l.classList.remove('ck'));});toast('已清空勾選');
+});
+document.getElementById('scnReset').addEventListener('click',()=>{buildScn();refreshStats();toast('情境題已重置');});
+document.getElementById('qSubmit').addEventListener('click',gradeQuiz);
+document.getElementById('qReset').addEventListener('click',()=>{resetQuiz();toast('已重新作答');});
+
+function observeReveal(){
+  const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}}),{threshold:.06});
+  document.querySelectorAll('.rv:not(.in)').forEach(x=>io.observe(x));
+}
+const secs=['links','map','path1','path2','path3','practice','badges'];
+window.addEventListener('scroll',()=>{
+  let cur=secs[0];
+  secs.forEach(id=>{const el=document.getElementById(id);if(el&&el.getBoundingClientRect().top<190)cur=id;});
+  document.querySelectorAll('.topnav a').forEach(a=>a.classList.toggle('on',a.getAttribute('href')==='#'+cur));
+},{passive:true});
+
+/* INIT */
+buildMap();buildAcc('acc1','p1');buildAcc('acc2','p2');buildAcc('acc3','p3');
+buildTL();buildSC();buildRoles();buildMethods();buildScn();buildQuiz();
+paintMap();syncMarks();refreshStats();observeReveal();gRender();
+document.querySelectorAll('.acc-item').forEach(it=>initExtras(it));
+setStatus('就緒 ── 請按上方任一「🔗 新分頁」開啟原站；若無反應請按「⚙ 自動嘗試」或直接複製網址。');
+</script>
+</body>
+</html>
